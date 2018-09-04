@@ -4,15 +4,20 @@
     box-sizing: border-box;
 }
 
-body {
+
+.tetrisContainer{
     background-color: pink;
+    width: 100vw;
+    height: 100vh;
 }
+
 #tetris{
     /*width: 400px;*/
     /*height: 400px;*/
     margin: 1em auto;
     min-height: 100px;
     min-width: 100px;
+
 }
 
 #tetris div {
@@ -20,4 +25,19 @@ body {
     height: 20px;
     border: 1px solid black;
     float: left;
+}
+
+.finishedGame {
+    width: 100vw;
+    height: 100vh;
+    display: block;
+    background-image: url("../img/20707_funny_ants_playing_tetris.jpg");
+    background-color: yellow;
+    position: relative;
+}
+
+.finishedGame h1{
+    position: absolute;
+    top: 200px;
+    left: 700px;
 }

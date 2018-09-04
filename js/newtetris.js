@@ -258,7 +258,9 @@ document.addEventListener("DOMContentLoaded", function(){
 
         this.finishGame = function() {
             clearInterval(this.idSetInterval);
-            // console.log('koniec gry');
+            let finalDiv = document.querySelector('.finishedGame');
+            finalDiv.style.display = 'block';
+            console.log('koniec gry');
         }
     }
 
