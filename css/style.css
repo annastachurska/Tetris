@@ -4,20 +4,20 @@
     box-sizing: border-box;
 }
 
+body {
+    background-color: pink;
+}
 #tetris{
-    width: 400px;
-    height: 400px;
+    /*width: 400px;*/
+    /*height: 400px;*/
     margin: 1em auto;
+    min-height: 100px;
+    min-width: 100px;
 }
 
 #tetris div {
     width: 20px;
     height: 20px;
-    /*border: 1px solid black;*/
     border: 1px solid black;
     float: left;
-}
-
-.taken {
-    background-color: black;
 }

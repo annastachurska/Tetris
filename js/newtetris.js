@@ -1,33 +1,60 @@
 document.addEventListener("DOMContentLoaded", function(){
     console.log("działa");
 
-    let Game = function() {
-        this.board = document.querySelectorAll("#tetris div"),
-        this.width = 20,
-        this.height = this.board.length / this.width,
+
+    let Game = function(setWidth, setHeight) {
+        this.boardContainer = document.querySelector('section#tetris'),
+        this.width = Number(setWidth),
+        this.height = Number(setHeight),
+
+        this.createBoard = function() {
+            this.boardContainer.style.width = String(this.width * 20) + "px";
+            this.boardContainer.style.height = String(this.height * 20) + "px";
+            var numberOfElements = this.width * this.height;
+            for (var i=0; i < numberOfElements; i++) {
+                var newDiv = document.createElement("div");
+                this.boardContainer.appendChild(newDiv);
+            }
+            this.board = document.querySelectorAll("#tetris div");
+        },
+
         this.time = 250,
         this.points = 0,
+        this.wand = {
+            timesToUse: 3,
+            element: document.querySelector('.wand .result')
+        },
 
-        this.matrix = [
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-        ],
+        this.createMatrix = function() {
+            let newMatrix = [];
+            for (let i=0; i<this.height; i++) {
+                let newMatrixRaw =[];
+                newMatrixRaw = Array(...Array(this.width)).map(() => 0);
+                newMatrix.push(newMatrixRaw);
+            }
+            this.matrix = newMatrix;
+        },
+
+        // this.matrix = [
+        //     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        //     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        //     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        //     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        //     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        //     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        //     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        //     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        //     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        //     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        //     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        //     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        //     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        //     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        //     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        //     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        //     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        //     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+        // ],
 
         this.index = function(x, y) {
             return x + (y * this.width);
@@ -53,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
         this.line = {
             element: this.findRandomElement()[0],
-            positionX: 10,
+            positionX: Math.floor(this.width/2),
             positionY: 0,
         },
 
@@ -68,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     break;
 
                 case 39:
-                    if ((this.line.positionX <(20 - this.line.element[0].length)) && (!this.checkRightCollision())) {
+                    if ((this.line.positionX <(this.width - this.line.element[0].length)) && (!this.checkRightCollision())) {
                         this.hideElement();
                         this.line.positionX += 1;
                         this.showElement();
@@ -97,8 +124,6 @@ document.addEventListener("DOMContentLoaded", function(){
                     if (this.line.element[i][j] == 1) {
                         let element = this.index(j+this.line.positionX, i+this.line.positionY);
                         this.board[element].style.backgroundColor = 'black';
-                        // this.matrix[i+this.line.positionY][j+this.line.positionX] = 1;
-                        // console.log(this.matrix);
                     }
                 }
             }
@@ -120,7 +145,6 @@ document.addEventListener("DOMContentLoaded", function(){
                     if (this.line.element[i][j] == 1) {
                         let element = this.index(j+this.line.positionX, i+this.line.positionY);
                         this.board[element].style.backgroundColor = 'white';
-                        // this.matrix[i+this.line.positionY][j+this.line.positionX] = 0;
                     }
                 }
             }
@@ -137,7 +161,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 this.removeCompleteRows();
                 // clearInterval(this.idSetInterval);
                 this.line.positionY = 0;
-                this.line.positionX = 10;
+                this.line.positionX = Math.floor(this.width/2);
                 this.line.element = this.findRandomElement()[0];
                 this.showElement();
 
@@ -182,7 +206,12 @@ document.addEventListener("DOMContentLoaded", function(){
             let shouldRepeat = true;
             while (shouldRepeat) {
                 shouldRepeat = false;
-                const newMatrix =[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]];
+                let newMatrix =[];
+                newMatrix.push(Array(...Array(this.width)).map(() => 0));
+
+                // const newMatrix = Array(this.width).fill(0);
+                // Array(...Array(10)).map(() => 5);
+                // const newMatrix =[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]];
                 for (let i=this.matrix.length-1; i>=0; i--){
                     let sum = this.matrix[i].reduce((prev, next) => {return prev + next});
                     if (sum == this.matrix[i].length) {
@@ -193,6 +222,7 @@ document.addEventListener("DOMContentLoaded", function(){
                                 newMatrix.push(this.matrix[j]);
                             }
                         }
+                        // console.log(newMatrix);
                         this.matrix = newMatrix;
                         this.colorBoard();
 
@@ -200,11 +230,6 @@ document.addEventListener("DOMContentLoaded", function(){
                 }
             }
         },
-
-
-
-
-
 
         this.colorBoard = function() {
             for (let i=0; i < this.height; i++) {
@@ -222,6 +247,8 @@ document.addEventListener("DOMContentLoaded", function(){
         },
 
         this.startGame = function() {
+            this.createBoard();
+            this.createMatrix();
             this.colorBoard();
             var self = this;
             this.idSetInterval = setInterval(function() {
@@ -231,12 +258,19 @@ document.addEventListener("DOMContentLoaded", function(){
 
         this.finishGame = function() {
             clearInterval(this.idSetInterval);
-            console.log('koniec gry');
+            // console.log('koniec gry');
         }
     }
 
-    let game = new Game();
+
+
+    let userWidth = prompt('Podaj szerokość','10-20');
+    let userHeight = prompt('Podaj wysokość', '10-20');
+
+    let game = new Game(userWidth, userHeight);
     game.startGame();
+    // console.log(game.board);
+    // console.log(game.matrix);
 
     document.addEventListener('keydown', function(event){
         game.changeDirection(event);
