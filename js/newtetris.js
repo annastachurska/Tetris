@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function(){
         this.changeDirection = function(event) {
             switch(event.which) {
                 case 37:
-                    if (this.line.positionX >= 1) {
+                    if ((this.line.positionX >= 1) && (!this.checkLeftCollision())) {
                         this.hideElement();
                         this.line.positionX -= 1;
                         this.showElement();
@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     break;
 
                 case 39:
-                    if (this.line.positionX <(20 - this.line.element[0].length)) {
+                    if ((this.line.positionX <(20 - this.line.element[0].length)) && (!this.checkRightCollision())) {
                         this.hideElement();
                         this.line.positionX += 1;
                         this.showElement();
@@ -145,8 +145,26 @@ document.addEventListener("DOMContentLoaded", function(){
 
         },
 
-        this.checkSideCollision = function(){
+        this.checkLeftCollision = function(){
+            for (let j=this.line.element.length-1; j>=0; j--) {
+                for (let i=0; i<this.line.element[j].length; i++) {
+                    if ((this.line.element[j][i] ==1)&&(this.matrix[this.line.positionY+j][this.line.positionX + i-1] ==1)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        },
 
+        this.checkRightCollision = function(){
+            for (let j=this.line.element.length-1; j>=0; j--) {
+                for (let i=0; i<this.line.element[j].length; i++) {
+                    if ((this.line.element[j][i] ==1)&&(this.matrix[this.line.positionY+j][this.line.positionX + i+1] ==1)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
         },
 
         this.checkCollisionWithMatrix = function(){
