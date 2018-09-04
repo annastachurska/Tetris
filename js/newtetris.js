@@ -6,12 +6,9 @@ document.addEventListener("DOMContentLoaded", function(){
         this.width = 20,
         this.height = this.board.length / this.width,
         this.time = 250,
-        this.indexTable = [],
+        this.points = 0,
 
         this.matrix = [
-            [1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0],
-            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
@@ -23,10 +20,13 @@ document.addEventListener("DOMContentLoaded", function(){
             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+            [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
         ],
 
         this.index = function(x, y) {
@@ -39,7 +39,9 @@ document.addEventListener("DOMContentLoaded", function(){
             [[[1,0],[1,1], [1,0]], [[1,1,1],[0,1,0]]],
             [[[0,1,0], [1,1,1], [0,1,0]], [[0,1,0], [1,1,1], [0,1,0]]],
             [[[0,1,1], [1,1,0]], [[1,0], [1,1], [0,1]]],
-            [[[1,1,0], [0,1,1]], [[0,1], [1,1], [1,0]]]
+            [[[1,1,0], [0,1,1]], [[0,1], [1,1], [1,0]]],
+            [[[1,0,0],[1,1,1]],[[1,1], [1,0], [1,0]]],
+            [[[0,0,1],[1,1,1]],[[1,1], [0,1], [0,1]]],
         ],
 
         this.findRandomElement = function() {
@@ -62,7 +64,6 @@ document.addEventListener("DOMContentLoaded", function(){
                         this.hideElement();
                         this.line.positionX -= 1;
                         this.showElement();
-
                     }
                     break;
 
@@ -89,6 +90,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     break;
             }
         },
+
         this.showElement = function(){
             for (let i=0; i<this.line.element.length; i++) {
                 for( let j=0; j < this.line.element[i].length; j++) {
@@ -126,8 +128,6 @@ document.addEventListener("DOMContentLoaded", function(){
 
         this.moveElement = function() {
             // MUSZE DAC JAKO PIERWSZY KROK W STARCIE SHOW ELEMENT
-
-
             if (((this.line.positionY+1) <= this.height-this.line.element.length) &&(!(this.checkCollisionWithMatrix()))) {
                 this.hideElement();
                 this.line.positionY += 1;
@@ -145,6 +145,9 @@ document.addEventListener("DOMContentLoaded", function(){
 
         },
 
+        this.checkSideCollision = function(){
+
+        },
 
         this.checkCollisionWithMatrix = function(){
             for (let j=this.line.element.length-1; j>=0; j--) {
@@ -166,7 +169,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     let sum = this.matrix[i].reduce((prev, next) => {return prev + next});
                     if (sum == this.matrix[i].length) {
                         shouldRepeat = true;
-
+                        this.points++;
                         for (let j=0; j < this.matrix.length; j++) {
                             if ((j<i) || (j>i)) {
                                 newMatrix.push(this.matrix[j]);
@@ -182,10 +185,8 @@ document.addEventListener("DOMContentLoaded", function(){
 
 
 
-        this.dropElements = function(){
-        },
-        this.finishGame = function(){
-        },
+
+
 
         this.colorBoard = function() {
             for (let i=0; i < this.height; i++) {
@@ -208,6 +209,11 @@ document.addEventListener("DOMContentLoaded", function(){
             this.idSetInterval = setInterval(function() {
                 self.moveElement();
             }, this.time);
+        },
+
+        this.finishGame = function() {
+            clearInterval(this.idSetInterval);
+            console.log('koniec gry');
         }
     }
 
