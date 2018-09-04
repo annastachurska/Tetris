@@ -1,0 +1,23 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#tetris{
+    width: 400px;
+    height: 400px;
+    margin: 1em auto;
+}
+
+#tetris div {
+    width: 20px;
+    height: 20px;
+    /*border: 1px solid black;*/
+    border: 1px solid black;
+    float: left;
+}
+
+.taken {
+    background-color: black;
+}
