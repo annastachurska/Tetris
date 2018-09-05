@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", function(){
         this.boardContainer = document.querySelector('section#tetris'),
         this.width = Number(setWidth),
         this.height = Number(setHeight),
+        this.timer = 250,
 
         this.createBoard = function() {
             this.boardContainer.style.width = String(this.width * 20) + "px";
@@ -18,7 +19,6 @@ document.addEventListener("DOMContentLoaded", function(){
             this.board = document.querySelectorAll("#tetris div");
         },
 
-        this.time = 250,
         this.points = 0,
         this.wand = {
             timesToUse: 10,
@@ -111,8 +111,13 @@ document.addEventListener("DOMContentLoaded", function(){
 
                 case 40:
                     clearInterval(this.idSetInterval);
+                    var self = this;
+                    this.changeInt(50);
+                    // if (this.line.positionY == 0) {
+                    //     clearInterval(this.idSetInterval);
+                    //     this.changeInt(250);
+                    // }
                     // console.log("działa");
-                    this.time = 50;
                     break;
             }
         },
@@ -245,10 +250,18 @@ document.addEventListener("DOMContentLoaded", function(){
             this.createBoard();
             this.createMatrix();
             this.colorBoard();
-            var self = this;
+            this.changeInt(250);
+        },
+
+        this.changeInt = function (val){
+            let self = this;
             this.idSetInterval = setInterval(function() {
                 self.moveElement();
-            }, this.time);
+                if (self.line.positionY ==0) {
+                    clearInterval(self.idSetInterval);
+                    self.changeInt(250);
+                }
+            }, val );
         },
 
         this.finishGame = function() {
