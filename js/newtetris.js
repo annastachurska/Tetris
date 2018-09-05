@@ -46,39 +46,41 @@ document.addEventListener("DOMContentLoaded", function(){
         },
 
         this.elementTable = [
-            [[[1],[1],[1],[1]],[[1,1,1,1]]],
-            [[[1,1],[1,1]],[[1,1],[1,1]]],
-            [[[1,0],[1,1], [1,0]], [[1,1,1],[0,1,0]]],
-            [[[0,1,0], [1,1,1], [0,1,0]], [[0,1,0], [1,1,1], [0,1,0]]],
-            [[[0,1,1], [1,1,0]], [[1,0], [1,1], [0,1]]],
-            [[[1,1,0], [0,1,1]], [[0,1], [1,1], [1,0]]],
-            [[[1,0,0],[1,1,1]],[[1,1], [1,0], [1,0]]],
-            [[[0,0,1],[1,1,1]],[[1,1], [0,1], [0,1]]]
+            [[1],[1],[1],[1]],
+            [[1,1],[1,1]],
+            [[1,0],[1,1], [1,0]],
+            [[0,1,0], [1,1,1], [0,1,0]],
+            [[0,1,1], [1,1,0]],
+            [[1,1,0], [0,1,1]],
+            [[1,0,0],[1,1,1]],
+            [[0,0,1],[1,1,1]]
         ],
 
         this.findRandomElement = function() {
-            let number = Math.floor(Math.random()*2);
-            this.rotated = this.elementTable[number][1];
-            this.normal = this.elementTable[number][0];
+            let number = Math.floor(Math.random()*8);
             return this.elementTable[number];
         },
 
         this.line = {
-            element: this.findRandomElement()[0],
+            element: this.findRandomElement(),
             positionX: Math.floor(this.width/2),
             positionY: 0,
         },
 
         this.rotateElement = function(){
+            // console.log(this.line.element);
             let rotatedElement = [];
-            for (let i=0; i<this.line.element.length[0]; i++){
+            for (let i=0; i<this.line.element[0].length; i++){
                 let rotatedElementLine = [];
-                for (let j=0; j<this.line.element.length; j++){
+                for (let j=this.line.element.length-1; j>=0; j--){
                     rotatedElementLine.push(this.line.element[j][i]);
                 }
                 rotatedElement.push(rotatedElementLine);
+                // console.log(rotatedElementLine);
             }
+            // console.log(rotatedElement);
             this.line.element = rotatedElement;
+            // console.log(this.line.element);
         },
 
         this.changeDirection = function(event) {
@@ -100,9 +102,9 @@ document.addEventListener("DOMContentLoaded", function(){
                     break;
 
                 case 38:
-                    if (this.line.positionX <=(this.width - this.line.element.length)) {
+                    if ((this.line.positionX <=(this.width - this.line.element.length)) && (this.line.positionY <=(this.height - this.line.element[0].length))) {
                         this.hideElement();
-                        this.line.element = this.line.element == this.rotated ? this.normal : this.rotated;
+                        this.rotateElement();
                         this.showElement();
                     }
                     break;
@@ -161,7 +163,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 this.removeCompleteRows();
                 this.line.positionY = 0;
                 this.line.positionX = Math.floor(this.width/2);
-                this.line.element = this.findRandomElement()[0];
+                this.line.element = this.findRandomElement();
                 this.showElement();
 
             }
