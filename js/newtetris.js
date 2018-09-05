@@ -276,6 +276,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 document.querySelector('.finishedGame_points').innerText = "You have scored " + this.points + " points.";
                 document.querySelector('.finishedGame_text').innerText = "Here is your reward.";
             }
+            document.querySelector('.finishedGame_joke').innerText = dataJoke;
         }
     }
 
@@ -284,6 +285,25 @@ document.addEventListener("DOMContentLoaded", function(){
         document.querySelector('.start').style.display = 'none';
         document.querySelector('.introduction').style.display = 'block';
     });
+
+    let dataWhole = null;
+    let dataJoke = null;
+
+    fetch('https://api.chucknorris.io/jokes/random')
+        .then(resp => resp.json())
+        .then(data => {
+            // console.log('mam dane');
+            dataWhole = data;
+            dataJoke = data.value;
+            // console.log(dataWhole);
+            console.log(dataJoke);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+
+    console.log(typeof dataJoke);
+    console.log('typ');
 
     document.querySelector('.introduction_button').addEventListener('click', (element) => {
         let newWidth = document.querySelector('.introduction_input[name="width"]').value;

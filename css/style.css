@@ -242,7 +242,14 @@ body{
 
 }
 
-.finishedGame_points{
+.finishedGame_points, .finishedGame_text_middle{
     font-size: 30px;
     padding: 10px;
+}
+
+.finishedGame_joke{
+    font-size: 30px;
+    padding: 30px;
+    color: black;
+    font-style: italic;
 }
