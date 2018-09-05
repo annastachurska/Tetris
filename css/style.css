@@ -103,11 +103,10 @@ body{
     left: 33%;
     border-radius: 25px;
     width: 50vw;
-    height: 60vh;
+    height: 80vh;
 }
 
 .introduction_header{
-
     padding: 20px 0 0 150px;
     font-size: 40px;
 }
@@ -115,6 +114,10 @@ body{
     padding: 20px 0 25px 25px;
     text-align: center;
 
+}
+
+.introduction_label{
+    font-size: 18px;
 }
 
 .introduction_input{
@@ -135,13 +138,41 @@ body{
 
 .introduction_text{
     padding: 10px 0 10px 0;
+    font-size: 20px;
 }
 
+.introduction_span{
+    font-size: 35px;
+    padding-left: 20px;
+}
+
+
+.introduction_button{
+    position: absolute;
+    background-color: #2D5B0F;
+    color:#AFCC5D;
+    /*background-color: #6AAB61;*/
+    border-color: #AFCC5D   ;
+    font-size: 20px;
+    padding: 10px 30px;
+    border-radius: 10px;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: 700;
+}
+
+.introduction_message{
+    font-size: 25px;
+    color: darkred;
+    padding-top: 10px;
+}
 
 .tetrisContainer{
     background-color: pink;
     width: 100vw;
     height: 100vh;
+    display: none;
 }
 
 #tetris{

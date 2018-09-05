@@ -275,14 +275,33 @@ document.addEventListener("DOMContentLoaded", function(){
         document.querySelector('.introduction').style.display = 'block';
     });
 
+    // let userWidth = prompt('Podaj szerokość','10-20');
+    // let userHeight = prompt('Podaj wysokość', '10-20');
 
-    document.querySelector('.introduction_button').addEventListener('click', () => {
-        document.querySelector('.introduction').style.display = 'none';
-        document.querySelector('.tetrisContainer').style.display = 'block';
+    let userWidth = 20;
+    let userHeight = 20;
+
+
+    document.querySelector('.introduction_button').addEventListener('click', (element) => {
+        let newWidth = document.querySelector('.introduction_input[name="width"]').value;
+        // console.log(document.querySelector('.introduction_input[name="width"]').value);
+        let newHeight = document.querySelector('.introduction_input[name="height"]').value;
+        // console.log(document.querySelector('.introduction_input[name="height"]').value);
+        if ((newWidth >=10 && newWidth <=20) && (newHeight >=10 && newHeight <=20) ){
+            console.log('ok');
+            userWidth = newWidth;
+            userHeight = newHeight;
+            document.querySelector('.introduction').style.display = 'none';
+            document.querySelector('.tetrisContainer').style.display = 'block';
+        } else {
+            document.querySelector('.introduction_message').innerText = 'Please choose numbers between 10-20';
+        }
+
     });
 
 
-    //
+
+
     // let userWidth = prompt('Podaj szerokość','10-20');
     // let userHeight = prompt('Podaj wysokość', '10-20');
 
