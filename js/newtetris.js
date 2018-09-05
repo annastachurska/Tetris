@@ -21,8 +21,14 @@ document.addEventListener("DOMContentLoaded", function(){
         this.time = 250,
         this.points = 0,
         this.wand = {
-            timesToUse: 3,
-            element: document.querySelector('.wand .result')
+            timesToUse: 10,
+            element: document.querySelector('.wand .result'),
+            // self: this,
+            handleClick: function(){
+                console.log("klik");
+                this.timesToUse--;
+                console.log(this.timesToUse);
+            },
         },
 
         this.createMatrix = function() {
@@ -72,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function(){
         ],
 
         this.findRandomElement = function() {
-            let number = Math.floor(Math.random()*2);
+            let number = Math.floor(Math.random()*7);
             this.rotated = this.elementTable[number][1];
             this.normal = this.elementTable[number][0];
             return this.elementTable[number];
@@ -264,6 +270,10 @@ document.addEventListener("DOMContentLoaded", function(){
         }
     }
 
+    document.querySelector('.start_button').addEventListener('click', () => {
+        document.querySelector('.start').style.display = 'none';
+        document.querySelector('.introduction').style.display = 'block';
+    });
 
 
     let userWidth = prompt('Podaj szerokość','10-20');
@@ -276,6 +286,11 @@ document.addEventListener("DOMContentLoaded", function(){
 
     document.addEventListener('keydown', function(event){
         game.changeDirection(event);
+    });
+
+    document.querySelector(".wand").addEventListener('click', function(){
+        game.wand.handleClick();
+
     });
 
 });

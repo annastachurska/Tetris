@@ -4,6 +4,92 @@
     box-sizing: border-box;
 }
 
+@font-face {
+    font-family: 'tetris';
+    src: url('../fonts/Tetris2.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body{
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.start, .introduction{
+    width: 100vw;
+    height: 100vh;
+}
+
+.start{
+    background-color: black;
+    position: relative;
+}
+
+.start_header, .start_tetris{
+    color: yellow;
+    position: absolute;
+    transform: translate(-50%, -50%);
+}
+
+.start_header{
+    font-size: 40px;
+    top: 30%;
+    left: 50%;
+    letter-spacing: 10px;
+    word-spacing: 20px;
+    font-weight: 900;
+    animation-name: changeColor;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+    animation-fill-mode: forwards;
+    animation-direction: alternate-reverse;
+}
+
+@keyframes changeColor {
+    0% {color: yellow}
+    25% {color: lightgreen}
+    50% {color: aqua}
+    75% {color: violet}
+    100% {color: pink}
+}
+
+.start_tetris{
+    font-size: 80px;
+    top: 51%;
+    left: 50%;
+    letter-spacing: 20px;
+    font-weight: 900;
+    font-family: 'tetris', Helvetica, sans-serif;
+    animation-name: lightenHeader;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+    animation-fill-mode: forwards;
+    animation-direction: alternate-reverse;
+
+}
+
+
+@keyframes lightenHeader {
+    0% {font-size: 80px; text-shadow: 0px 0px 25px pink;}
+    100% {font-size: 120px; text-shadow: 0px 0px 125px pink;}
+}
+
+
+
+.start_button{
+    position: absolute;
+    background-color: yellowgreen;
+    border-color: grey;
+    font-size: 25px;
+    padding: 10px 30px;
+    border-radius: 10px;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: 700;
+}
+
 
 .tetrisContainer{
     background-color: pink;
