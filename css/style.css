@@ -169,7 +169,10 @@ body{
 }
 
 .tetrisContainer{
-    background-color: pink;
+    /*background-color: #6AAB61;*/
+    /*//#AAC95D*/
+    /*background-image: url("../img/20707_funny_ants_playing_tetris.jpg");*/
+    background-color: #94d38b;
     width: 100vw;
     height: 100vh;
     display: none;
@@ -189,6 +192,7 @@ body{
     height: 20px;
     border: 1px solid black;
     float: left;
+    background-color: #AAC959;
 }
 
 .finishedGame {

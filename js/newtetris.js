@@ -41,27 +41,6 @@ document.addEventListener("DOMContentLoaded", function(){
             this.matrix = newMatrix;
         },
 
-        // this.matrix = [
-        //     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        //     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        //     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        //     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        //     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        //     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        //     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        //     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        //     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        //     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        //     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        //     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        //     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        //     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        //     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        //     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        //     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        //     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-        // ],
-
         this.index = function(x, y) {
             return x + (y * this.width);
         },
@@ -74,11 +53,11 @@ document.addEventListener("DOMContentLoaded", function(){
             [[[0,1,1], [1,1,0]], [[1,0], [1,1], [0,1]]],
             [[[1,1,0], [0,1,1]], [[0,1], [1,1], [1,0]]],
             [[[1,0,0],[1,1,1]],[[1,1], [1,0], [1,0]]],
-            [[[0,0,1],[1,1,1]],[[1,1], [0,1], [0,1]]],
+            [[[0,0,1],[1,1,1]],[[1,1], [0,1], [0,1]]]
         ],
 
         this.findRandomElement = function() {
-            let number = Math.floor(Math.random()*7);
+            let number = Math.floor(Math.random()*2);
             this.rotated = this.elementTable[number][1];
             this.normal = this.elementTable[number][0];
             return this.elementTable[number];
@@ -163,16 +142,17 @@ document.addEventListener("DOMContentLoaded", function(){
                 this.line.positionY += 1;
                 this.showElement();
             } else {
+                if (this.line.positionY == 0) {
+                    this.finishGame();
+                }
                 this.addElementToMatrix();
                 this.removeCompleteRows();
-                // clearInterval(this.idSetInterval);
                 this.line.positionY = 0;
                 this.line.positionX = Math.floor(this.width/2);
                 this.line.element = this.findRandomElement()[0];
                 this.showElement();
 
             }
-
         },
 
         this.checkLeftCollision = function(){
@@ -215,9 +195,6 @@ document.addEventListener("DOMContentLoaded", function(){
                 let newMatrix =[];
                 newMatrix.push(Array(...Array(this.width)).map(() => 0));
 
-                // const newMatrix = Array(this.width).fill(0);
-                // Array(...Array(10)).map(() => 5);
-                // const newMatrix =[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]];
                 for (let i=this.matrix.length-1; i>=0; i--){
                     let sum = this.matrix[i].reduce((prev, next) => {return prev + next});
                     if (sum == this.matrix[i].length) {
@@ -228,7 +205,6 @@ document.addEventListener("DOMContentLoaded", function(){
                                 newMatrix.push(this.matrix[j]);
                             }
                         }
-                        // console.log(newMatrix);
                         this.matrix = newMatrix;
                         this.colorBoard();
 
@@ -265,6 +241,7 @@ document.addEventListener("DOMContentLoaded", function(){
         this.finishGame = function() {
             clearInterval(this.idSetInterval);
             let finalDiv = document.querySelector('.finishedGame');
+            document.querySelector('.tetrisContainer').style.display = 'none';
             finalDiv.style.display = 'block';
             console.log('koniec gry');
         }
@@ -284,15 +261,26 @@ document.addEventListener("DOMContentLoaded", function(){
 
     document.querySelector('.introduction_button').addEventListener('click', (element) => {
         let newWidth = document.querySelector('.introduction_input[name="width"]').value;
-        // console.log(document.querySelector('.introduction_input[name="width"]').value);
         let newHeight = document.querySelector('.introduction_input[name="height"]').value;
-        // console.log(document.querySelector('.introduction_input[name="height"]').value);
         if ((newWidth >=10 && newWidth <=20) && (newHeight >=10 && newHeight <=20) ){
-            console.log('ok');
-            userWidth = newWidth;
-            userHeight = newHeight;
+            userHeight = Number(newHeight);
+            userWidth = Number(newWidth);
+
             document.querySelector('.introduction').style.display = 'none';
             document.querySelector('.tetrisContainer').style.display = 'block';
+
+            let game = new Game(userWidth, userHeight);
+            game.startGame();
+
+            document.addEventListener('keydown', function(event){
+                game.changeDirection(event);
+            });
+
+            document.querySelector(".wand").addEventListener('click', function(){
+                game.wand.handleClick();
+
+            });
+
         } else {
             document.querySelector('.introduction_message').innerText = 'Please choose numbers between 10-20';
         }
@@ -300,23 +288,5 @@ document.addEventListener("DOMContentLoaded", function(){
     });
 
 
-
-
-    // let userWidth = prompt('Podaj szerokość','10-20');
-    // let userHeight = prompt('Podaj wysokość', '10-20');
-
-    let game = new Game(userWidth, userHeight);
-    game.startGame();
-    // console.log(game.board);
-    // console.log(game.matrix);
-
-    document.addEventListener('keydown', function(event){
-        game.changeDirection(event);
-    });
-
-    document.querySelector(".wand").addEventListener('click', function(){
-        game.wand.handleClick();
-
-    });
 
 });
