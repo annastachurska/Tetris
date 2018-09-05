@@ -204,8 +204,45 @@ body{
     position: relative;
 }
 
-.finishedGame h1{
+.finishedGame_container{
+    border: 5px solid #2D5B0F;
     position: absolute;
-    top: 200px;
-    left: 700px;
+    top: 10%;
+    left: 33%;
+    border-radius: 25px;
+    width: 50vw;
+    height: 80vh;
+    text-align: center;
+}
+
+.finishedGame_header{
+    padding: 20px 0;
+    animation-name: changeSize;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-fill-mode: forwards;
+    animation-direction: alternate-reverse;
+}
+
+@keyframes changeSize {
+    0% {font-size: 30px; text-shadow: 0 0 0px yellow;}
+    100% {font-size: 40px; text-shadow: 0 0 10px yellow;}
+}
+
+.finishedGame_text_container{
+    position: absolute;
+    top: 19%;
+    left: 10%;
+    margin-left: 50pxl
+}
+
+.finishedGame_text{
+    padding: 20px 0 25px 25px;
+    font-size: 30px;
+
+}
+
+.finishedGame_points{
+    font-size: 30px;
+    padding: 10px;
 }

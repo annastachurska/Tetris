@@ -69,6 +69,18 @@ document.addEventListener("DOMContentLoaded", function(){
             positionY: 0,
         },
 
+        this.rotateElement = function(){
+            let rotatedElement = [];
+            for (let i=0; i<this.line.element.length[0]; i++){
+                let rotatedElementLine = [];
+                for (let j=0; j<this.line.element.length; j++){
+                    rotatedElementLine.push(this.line.element[j][i]);
+                }
+                rotatedElement.push(rotatedElementLine);
+            }
+            this.line.element = rotatedElement;
+        },
+
         this.changeDirection = function(event) {
             switch(event.which) {
                 case 37:
@@ -200,6 +212,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     if (sum == this.matrix[i].length) {
                         shouldRepeat = true;
                         this.points++;
+                        document.querySelector('.tetris_points').innerText = "Points: " + this.points;
                         for (let j=0; j < this.matrix.length; j++) {
                             if ((j<i) || (j>i)) {
                                 newMatrix.push(this.matrix[j]);
@@ -207,7 +220,6 @@ document.addEventListener("DOMContentLoaded", function(){
                         }
                         this.matrix = newMatrix;
                         this.colorBoard();
-
                     }
                 }
             }
@@ -224,7 +236,6 @@ document.addEventListener("DOMContentLoaded", function(){
                         this.board[element].style.backgroundColor = 'white';
                     }
                 }
-
             }
         },
 
@@ -243,21 +254,21 @@ document.addEventListener("DOMContentLoaded", function(){
             let finalDiv = document.querySelector('.finishedGame');
             document.querySelector('.tetrisContainer').style.display = 'none';
             finalDiv.style.display = 'block';
-            console.log('koniec gry');
+            if (this.points == 0) {
+                document.querySelector('.finishedGame_points').innerText = "Ohh no... You haven't scored any points.";
+                document.querySelector('.finishedGame_text').innerText = 'Here is your consolation prize.';
+            } else {
+                document.querySelector('.finishedGame_points').innerText = "You have scored " + this.points + " points.";
+                document.querySelector('.finishedGame_text').innerText = "Here is your reward.";
+            }
         }
     }
+
 
     document.querySelector('.start_button').addEventListener('click', () => {
         document.querySelector('.start').style.display = 'none';
         document.querySelector('.introduction').style.display = 'block';
     });
-
-    // let userWidth = prompt('Podaj szerokość','10-20');
-    // let userHeight = prompt('Podaj wysokość', '10-20');
-
-    let userWidth = 20;
-    let userHeight = 20;
-
 
     document.querySelector('.introduction_button').addEventListener('click', (element) => {
         let newWidth = document.querySelector('.introduction_input[name="width"]').value;
@@ -286,7 +297,6 @@ document.addEventListener("DOMContentLoaded", function(){
         }
 
     });
-
 
 
 });
