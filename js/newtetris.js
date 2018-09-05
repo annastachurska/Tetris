@@ -276,8 +276,15 @@ document.addEventListener("DOMContentLoaded", function(){
     });
 
 
-    let userWidth = prompt('Podaj szerokość','10-20');
-    let userHeight = prompt('Podaj wysokość', '10-20');
+    document.querySelector('.introduction_button').addEventListener('click', () => {
+        document.querySelector('.introduction').style.display = 'none';
+        document.querySelector('.tetrisContainer').style.display = 'block';
+    });
+
+
+    //
+    // let userWidth = prompt('Podaj szerokość','10-20');
+    // let userHeight = prompt('Podaj wysokość', '10-20');
 
     let game = new Game(userWidth, userHeight);
     game.startGame();

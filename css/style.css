@@ -79,7 +79,7 @@ body{
 
 .start_button{
     position: absolute;
-    background-color: yellowgreen;
+    background-color: #6AAB61;
     border-color: grey;
     font-size: 25px;
     padding: 10px 30px;
@@ -88,6 +88,53 @@ body{
     left: 50%;
     transform: translate(-50%, -50%);
     font-weight: 700;
+}
+
+.introduction{
+    background-image: url("../img/20707_funny_ants_playing_tetris.jpg");
+    background-color: yellow;
+    position: relative;
+}
+
+.introduction_item{
+    border: 5px solid #2D5B0F;
+    position: absolute;
+    top: 10%;
+    left: 33%;
+    border-radius: 25px;
+    width: 50vw;
+    height: 60vh;
+}
+
+.introduction_header{
+
+    padding: 20px 0 0 150px;
+    font-size: 40px;
+}
+.introduction_description{
+    padding: 20px 0 25px 25px;
+    text-align: center;
+
+}
+
+.introduction_input{
+    width: 50px;
+    background-color: #AFCC5D;
+    border-color: transparent;
+    margin: 10px;
+}
+
+.introduction_input:focus{
+    border-color: #2D5B0F;
+    background-color: yellow;
+}
+
+.introduction_textContainer{
+    padding: 20px;
+}
+
+.introduction_text{
+    padding: 10px 0 10px 0;
 }
 
 
