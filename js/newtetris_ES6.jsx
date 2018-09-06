@@ -23,8 +23,11 @@ document.addEventListener("DOMContentLoaded", function(){
             this.positionY = 0;
             this.element = null;
             this.isSwitchedSideKeys = false;
+            this.isWandClicked = false;
             this.isSlowedDown = false;
             this.isElementUpsideDown = false;
+            this.wandTimesToUse = 4;
+
 
 
         }
@@ -75,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 }
                 rotatedElement.push(rotatedElementLine);
             }
-            this.element = rotatedElement;
+            return rotatedElement;
         }
 
 
@@ -98,9 +101,9 @@ document.addEventListener("DOMContentLoaded", function(){
                     break;
 
                 case 38:
-                    if ((this.positionX <=(this.width - this.element.length)) && (this.positionY <=(this.height - this.element[0].length))) {
+                    if ((this.positionX <=(this.width - this.element.length)) && (this.positionY <=(this.height - this.element[0].length)) && (!this.checkRotatedCollision())) {
                         this.hideElement();
-                        this.rotateElement();
+                        this.element = this.rotateElement();
                         this.showElement();
                     }
                     break;
@@ -132,9 +135,9 @@ document.addEventListener("DOMContentLoaded", function(){
                     break;
 
                 case 40:
-                    if ((this.positionX <=(this.width - this.element.length)) && (this.positionY <=(this.height - this.element[0].length))) {
+                    if ((this.positionX <=(this.width - this.element.length)) && (this.positionY <=(this.height - this.element[0].length)) && (!this.checkRotatedCollision())) {
                         this.hideElement();
-                        this.rotateElement();
+                        this.element = this.rotateElement();
                         this.showElement();
                     }
                     break;
@@ -146,6 +149,19 @@ document.addEventListener("DOMContentLoaded", function(){
                     break;
             }
         }
+
+        checkRotatedCollision(){
+            let rotated = this.rotateElement();
+            for (let j=rotated.length-1; j>=0; j--) {
+                for (let i=0; i<rotated[j].length; i++) {
+                    if ((rotated[j][i] ==1)&&(this.matrix[this.positionY+j][this.positionX + i] ==1)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
 
         showElement(){
             for (let i=0; i<this.element.length; i++) {
@@ -295,6 +311,43 @@ document.addEventListener("DOMContentLoaded", function(){
             }, val );
         }
 
+        slowDownOnKey(){
+            clearInterval(this.idSetInterval);
+            const self = this;
+            this.changeInt(1000);
+        }
+
+        // handleMagicWand(){
+        //     clearInterval(this.idSetInterval);
+        //     this.isWandClicked = true;
+        //     let self = this;
+        //     this.board.forEach((element, number => {
+        //         element.addEventListener('click', () => {
+        //
+        //             let x = number%this.width;
+        //             let y = Math.floor(number/self.width);
+        //
+        //             let element = this.index(y,x);
+        //             if (this.matrix[x][y] == 1) {
+        //                 // console.log(this.matrix[i][j]);
+        //                 this.board[element].style.backgroundColor = 'white';
+        //                 this.matrix[x][y] == 0;
+        //             } else {
+        //                 this.board[element].style.backgroundColor = 'black';
+        //                 this.matrix[x][y] == 1;
+        //             }
+        //             self.isWandClicked = false;
+        //         });
+        //     });
+        //
+        //     // handleClick(element);
+        //     changeInt(250);
+        // }
+        //
+        // handleClick(){
+        //
+        // }
+
         finishGame() {
             clearInterval(this.idSetInterval);
             let finalDiv = document.querySelector('.finishedGame');
@@ -321,7 +374,11 @@ document.addEventListener("DOMContentLoaded", function(){
     let countChuck = 0;
     let dataWhole = null;
     let dataJoke = null;
-    let uglyWords = ['cock', 'fuck', 'dick', 'vagina', 'condom', 'rape', 'nipples', 'gay'];
+    let uglyWords = ['vagina', 'condom', 'rape', 'nipples', 'gay', 'fag', 'faggot', 'turd', 'scag', 'arse', 'arsehole',
+        'ass', 'bastard', 'basterd', 'bellend', 'berk', 'bint', 'bitch', 'bollocks', 'bugger', 'cad', 'cack', 'cock', 'cunt',
+        'crap', 'dick', 'dickhead', 'duffer', 'fuck', 'feck', 'knob', 'minger', 'munter', 'naff', 'nutter', 'piss',
+        'scrubber', 'shit', 'shite', 'tosser', 'twat', 'wank', 'wanker', 'nigger', 'nigga', 'gook', 'coon', 'spade'
+    ];
     const jokesTable = ["Chuck Norris brushes his teeth with a machine gun and flosses with a lightsaber.",
         "The only mistake that Chuck Norris has committed was when he thought he did a mistake.",
         "Chuck Norris didn't audition for walker texas ranger he made da producers audition to film his life."
@@ -393,8 +450,16 @@ document.addEventListener("DOMContentLoaded", function(){
             document.querySelector('.tetris_keys').addEventListener('click', ()=> {
                 game.isSwitchedSideKeys = game.isSwitchedSideKeys== false ? true : false;
                 document.querySelector('.tetris_keys').innerText = game.isSwitchedSideKeys==false ? 'Switch sides' : 'Sides are switched'
-                console.log(game.isSwitchedSideKeys);
+                // console.log(game.isSwitchedSideKeys);
             });
+
+            document.querySelector('.tetris_slowDown').addEventListener('click', ()=> {
+                game.slowDownOnKey();
+            });
+
+            // document.querySelector('.tetris_changeElement').addEventListener('click', ()=> {
+            //     game.handleMagicWand();
+            // });
 
         } else {
             document.querySelector('.introduction_message').innerText = 'Please choose numbers between 10-20';
