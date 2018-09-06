@@ -176,6 +176,7 @@ body{
     width: 100vw;
     height: 100vh;
     display: none;
+    position: relative;
 }
 
 #tetris{
@@ -252,4 +253,14 @@ body{
     padding: 30px;
     color: black;
     font-style: italic;
+}
+
+.wand{
+    border: 5px solid #2D5B0F;
+    position: absolute;
+    top: 19%;
+    left: 10%;
+}
+.wand_button{
+
 }

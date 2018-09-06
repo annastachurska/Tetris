@@ -286,24 +286,54 @@ document.addEventListener("DOMContentLoaded", function(){
         document.querySelector('.introduction').style.display = 'block';
     });
 
+    let isInappropriate = true;
+    let countChuck = 0;
     let dataWhole = null;
     let dataJoke = null;
+    let uglyWords = ['cock', 'fuck', 'dick', 'vagina', 'condom', 'rape', 'nipples', 'gay'];
+    const jokesTable = ["Chuck Norris brushes his teeth with a machine gun and flosses with a lightsaber.",
+        "The only mistake that Chuck Norris has committed was when he thought he did a mistake.",
+        "Chuck Norris didn't audition for walker texas ranger he made da producers audition to film his life."
+    ];
 
-    fetch('https://api.chucknorris.io/jokes/random')
-        .then(resp => resp.json())
-        .then(data => {
-            // console.log('mam dane');
-            dataWhole = data;
-            dataJoke = data.value;
-            // console.log(dataWhole);
-            console.log(dataJoke);
-        })
-        .catch(err => {
-            console.log(err);
-        });
 
-    console.log(typeof dataJoke);
-    console.log('typ');
+    while(isInappropriate) {
+        isInappropriate = false;
+        countChuck++;
+        fetch('https://api.chucknorris.io/jokes/random')
+            .then(resp => resp.json())
+            .then(data => {
+                // console.log('mam dane');
+                dataWhole = data;
+                dataJoke = data.value;
+                console.log(dataWhole);
+                console.log(dataJoke);
+                console.log(dataJoke.indexOf('Chuck'));
+
+                uglyWords.forEach(element => {
+                    if (dataJoke.indexOf(element) !== -1) {
+                        console.log('losuj jeszzce raz');
+                        isInappropriate = true;
+
+                    }
+                });
+            })
+            .catch(err => {
+                console.log(err);
+                let randomNumber = Math.floor(Math.random()*3);
+                dataJoke = jokesTable[randomNumber];
+                // console.log(randomNumber);
+                isInappropriate = true;
+            });
+        if(countChuck > 10) {
+            let randomNumber = Math.floor(Math.random()*3);
+            dataJoke = jokesTable[randomNumber];
+            isInappropriate = true;
+        }
+    }
+
+
+
 
     document.querySelector('.introduction_button').addEventListener('click', (element) => {
         let newWidth = document.querySelector('.introduction_input[name="width"]').value;
@@ -324,7 +354,6 @@ document.addEventListener("DOMContentLoaded", function(){
 
             document.querySelector(".wand").addEventListener('click', function(){
                 game.wand.handleClick();
-
             });
 
         } else {
