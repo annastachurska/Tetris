@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <title>Tetris</title>
     <link rel='stylesheet' href='./css/style.css'>
-    <script src='./js/newtetris.js'></script>
+    <script src='./js/out.js'></script>
 
 </head>
 <body>
@@ -42,13 +42,22 @@
 
     <div class="tetrisContainer">
         <h2 class="tetris_points">Points: 0</h2>
-        <div class="wand">Magiczna różdżka
-            <img />
-            <div>Times left to use</div>
-            <div class="result"></div>
-            <button class="wand_button">STOP</button>
+        <div class="tetris_button_container">
+            <h2>Magic buttons</h2>
+            <button class="tetris_button tetris_rotate">Rotate tetris</button>
+            <button class="tetris_button tetris_changeElement">Magic wand</button>
+            <button class="tetris_button tetris_slowDown">Slow down</button>
+            <button class="tetris_button tetris_bomb">Bomb</button>
 
         </div>
+
+        <!--<div class="wand">Magiczna różdżka-->
+            <!--<img />-->
+            <!--<div>Times left to use<span class="wand_times"></span></div>-->
+            <!--<div class="result"></div>-->
+            <!--<button class="wand_button">STOP</button>-->
+
+        <!--</div>-->
         <section id="tetris">
         </section>
     </div>
