@@ -22,6 +22,10 @@ document.addEventListener("DOMContentLoaded", function(){
             this.positionX = Math.floor(Number(setWidth/2));
             this.positionY = 0;
             this.element = null;
+            this.isSwitchedSideKeys = false;
+            this.isSlowedDown = false;
+            this.isElementUpsideDown = false;
+
 
         }
         createBoard() {
@@ -102,6 +106,40 @@ document.addEventListener("DOMContentLoaded", function(){
                     break;
 
                 case 40:
+                    clearInterval(this.idSetInterval);
+                    const self = this;
+                    this.changeInt(50);
+                    break;
+            }
+        }
+
+        changeDirectionOpposite(event) {
+            switch(event.which) {
+                case 39:
+                    if ((this.positionX >= 1) && (!this.checkLeftCollision())) {
+                        this.hideElement();
+                        this.positionX -= 1;
+                        this.showElement();
+                    }
+                    break;
+
+                case 37:
+                    if ((this.positionX <(this.width - this.element[0].length)) && (!this.checkRightCollision())) {
+                        this.hideElement();
+                        this.positionX += 1;
+                        this.showElement();
+                    }
+                    break;
+
+                case 40:
+                    if ((this.positionX <=(this.width - this.element.length)) && (this.positionY <=(this.height - this.element[0].length))) {
+                        this.hideElement();
+                        this.rotateElement();
+                        this.showElement();
+                    }
+                    break;
+
+                case 38:
                     clearInterval(this.idSetInterval);
                     const self = this;
                     this.changeInt(50);
@@ -340,14 +378,23 @@ document.addEventListener("DOMContentLoaded", function(){
             game.startGame();
 
             document.addEventListener('keydown', function(event){
-                game.changeDirection(event);
+                if (game.isSwitchedSideKeys == true) {
+                    game.changeDirectionOpposite(event);
+                } else {
+                    game.changeDirection(event);
+                }
+
             });
 
             document.querySelector('.tetris_rotate').addEventListener('click', ()=> {
                 document.querySelector('#tetris').style.transform = document.querySelector('#tetris').style.transform == 'rotate(180deg)' ? 'rotate(0deg)' : 'rotate(180deg)';
-
             });
 
+            document.querySelector('.tetris_keys').addEventListener('click', ()=> {
+                game.isSwitchedSideKeys = game.isSwitchedSideKeys== false ? true : false;
+                document.querySelector('.tetris_keys').innerText = game.isSwitchedSideKeys==false ? 'Switch sides' : 'Sides are switched'
+                console.log(game.isSwitchedSideKeys);
+            });
 
         } else {
             document.querySelector('.introduction_message').innerText = 'Please choose numbers between 10-20';
