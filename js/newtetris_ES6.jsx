@@ -17,7 +17,8 @@ document.addEventListener("DOMContentLoaded", function(){
                 [[0,1,1], [1,1,0]],
                 [[1,1,0], [0,1,1]],
                 [[1,0,0],[1,1,1]],
-                [[0,0,1],[1,1,1]]
+                [[0,0,1],[1,1,1]],
+                [[1]]
             ];
             this.positionX = Math.floor(Number(setWidth/2));
             this.positionY = 0;
@@ -27,7 +28,6 @@ document.addEventListener("DOMContentLoaded", function(){
             this.isSlowedDown = false;
             this.isElementUpsideDown = false;
             this.wandTimesToUse = 4;
-
 
 
         }
@@ -51,20 +51,84 @@ document.addEventListener("DOMContentLoaded", function(){
             }
             this.matrix = newMatrix;
         }
-        /*
-        jhgjhgjh
-        params: x- hghg
-                y - iiuih
-        return: iuiuiu
-         */
+
         index(x, y) {
             return x + (y * this.width);
         }
 
         findRandomElement() {
-            let number = Math.floor(Math.random()*8);
+            let number = Math.floor(Math.random()*9);
+            this.number = number;
             return this.elementTable[number];
         }
+
+
+        detonateBomb(){
+            const newMatrix = this.matrix;
+            newMatrix[this.positionX][this.positionY] = 0;
+            if ((this.positionX>0) &&(this.positionX<this.width) && (this.positionY >0) && (this.positionY<this.height)) {
+                newMatrix[this.positionY - 1][this.positionX - 1] = 0;
+                newMatrix[this.positionY - 1][this.positionX] = 0;
+                newMatrix[this.positionY - 1][this.positionX + 1] = 0;
+                newMatrix[this.positionY][this.positionX - 1] = 0;
+                newMatrix[this.positionY][this.positionX] = 0;
+                newMatrix[this.positionY][this.positionX + 1] = 0;
+                newMatrix[this.positionY + 1][this.positionX - 1] = 0;
+                newMatrix[this.positionY + 1][this.positionX] = 0;
+                newMatrix[this.positionY + 1][this.positionX + 1] = 0;
+            } else if ((this.positionX==0) && (this.positionY ==0)) {
+                this.matrix[this.positionY][this.positionX] = 0;
+                this.matrix[this.positionY+1][this.positionX] = 0;
+                this.matrix[this.positionY][this.positionX+1] = 0;
+                this.matrix[this.positionY+1][this.positionX+1] = 0;
+            } else if ((this.positionX==0) && (this.positionY >0) && (this.positionY <this.height)) {
+                this.matrix[this.positionY-1][this.positionX] = 0;
+                this.matrix[this.positionY][this.positionX] = 0;
+                this.matrix[this.positionY+1][this.positionX] = 0;
+                this.matrix[this.positionY-1][this.positionX+1] = 0;
+                this.matrix[this.positionY][this.positionX+1] = 0;
+                this.matrix[this.positionY+1][this.positionX+1] = 0;
+            } else if ((this.positionX==0) && (this.positionY ==this.height)) {
+                this.matrix[this.positionY-1][this.positionX] = 0;
+                this.matrix[this.positionY][this.positionX] = 0;
+                this.matrix[this.positionY-1][this.positionX+1] = 0;
+                this.matrix[this.positionY][this.positionX+1] = 0;
+            } else if ((this.positionY==0) && (this.positionX >0) && (this.positionX <this.width)) {
+                this.matrix[this.positionY][this.positionX-1] = 0;
+                this.matrix[this.positionY+1][this.positionX-1] = 0;
+                this.matrix[this.positionY][this.positionX] = 0;
+                this.matrix[this.positionY+1][this.positionX] = 0;
+                this.matrix[this.positionY][this.positionX+1] = 0;
+                this.matrix[this.positionY+1][this.positionX+1] = 0;
+            } else if ((this.positionY==0) && (this.positionX=this.width)) {
+                this.matrix[this.positionY][this.positionX-1] = 0;
+                this.matrix[this.positionY+1][this.positionX-1] = 0;
+                this.matrix[this.positionY][this.positionX] = 0;
+                this.matrix[this.positionY+1][this.positionX] = 0;
+            } else if ((this.positionY==this.height) && (this.positionX >0) && (this.positionX <this.width)) {
+                this.matrix[this.positionY-1][this.positionX-1] = 0;
+                this.matrix[this.positionY][this.positionX-1] = 0;
+                this.matrix[this.positionY-1][this.positionX] = 0;
+                this.matrix[this.positionY][this.positionX] = 0;
+                this.matrix[this.positionY-1][this.positionX+1] = 0;
+                this.matrix[this.positionY][this.positionX+1] = 0;
+            } else if ((this.positionX==this.width) && (this.positionY >0) && (this.positionY <this.height)) {
+                this.matrix[this.positionY-1][this.positionX-1] = 0;
+                this.matrix[this.positionY][this.positionX-1] = 0;
+                this.matrix[this.positionY+1][this.positionX-1] = 0;
+                this.matrix[this.positionY-1][this.positionX] = 0;
+                this.matrix[this.positionY][this.positionX] = 0;
+                this.matrix[this.positionY+1][this.positionX] = 0;
+            } else if ((this.positionX==this.width) && (this.positionY ==this.height)){
+                this.matrix[this.positionY-1][this.positionX-1] = 0;
+                this.matrix[this.positionY][this.positionX-1] = 0;
+                this.matrix[this.positionY-1][this.positionX] = 0;
+                this.matrix[this.positionY][this.positionX] = 0;
+            }
+            this.matrix = newMatrix;
+            this.colorBoard();
+        }
+
         setStartingElement() {
             this.element = this.findRandomElement();
         }
@@ -168,7 +232,11 @@ document.addEventListener("DOMContentLoaded", function(){
                 for( let j=0; j < this.element[i].length; j++) {
                     if (this.element[i][j] == 1) {
                         let element = this.index(j+this.positionX, i+this.positionY);
-                        this.board[element].style.backgroundColor = 'black';
+                        if (this.number ==8) {
+                            this.board[element].style.backgroundColor = 'red';
+                        } else {
+                            this.board[element].style.backgroundColor = 'black';
+                        }
                     }
                 }
             }
@@ -207,7 +275,13 @@ document.addEventListener("DOMContentLoaded", function(){
                 if (this.positionY == 0) {
                     this.finishGame();
                 }
-                this.addElementToMatrix();
+
+                if (this.number==8) {
+                    this.detonateBomb();
+                } else {
+                    this.addElementToMatrix();
+                }
+
                 this.removeCompleteRows();
                 this.positionY = 0;
                 this.positionX = Math.floor(this.width/2);
@@ -295,6 +369,9 @@ document.addEventListener("DOMContentLoaded", function(){
             this.createBoard();
             this.createMatrix();
             this.setStartingElement();
+            while(this.number ==8){
+                this.setStartingElement();
+            }
             this.showElement()
             this.colorBoard();
             this.changeInt(250);
