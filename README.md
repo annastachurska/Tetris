@@ -12,6 +12,10 @@ There are four **additional features**:
 4. Bomb element. It is marked red. When it drops down and collides with element already present on the board it detopates all already taken elements in rage of 1 box.
 
 **Things to do:**:
-1. Add counter reducing the ability to use o
+1. Add counter reducing the ability to use special buttons.
+2. Possibility of 2-player game.
+3. Speed up when the points exceeds threshold value.
+4. Additional graphical options.
+
 
 
