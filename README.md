@@ -16,6 +16,8 @@ There are four **additional features**:
 2. Possibility of 2-player game.
 3. Speed up when the points exceeds threshold value.
 4. Additional graphical options.
-
+5. Boxes with descriptio of action of additional buttons  - they should appear when the mouse will be over button of interest.
+6. Information about the bomb in another section on the screen or in introduction part.
+7. Add special effects when bomb element is dwopping-down. 
 
 
