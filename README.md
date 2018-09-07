@@ -21,3 +21,5 @@ There are four **additional features**:
 7. Add special effects when bomb element is dwopping-down. 
 
 
+The graphic was downloaded from 
+https://www.wallpapervortex.com/wallpaper-20707_funny_ants_playing_tetris.html#.W5JKd6JR3IV
