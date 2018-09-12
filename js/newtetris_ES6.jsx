@@ -65,66 +65,76 @@ document.addEventListener("DOMContentLoaded", function(){
 
         detonateBomb(){
             const newMatrix = this.matrix;
-            newMatrix[this.positionX][this.positionY] = 0;
-            if ((this.positionX>0) &&(this.positionX<this.width) && (this.positionY >0) && (this.positionY<this.height)) {
-                newMatrix[this.positionY - 1][this.positionX - 1] = 0;
-                newMatrix[this.positionY - 1][this.positionX] = 0;
-                newMatrix[this.positionY - 1][this.positionX + 1] = 0;
-                newMatrix[this.positionY][this.positionX - 1] = 0;
-                newMatrix[this.positionY][this.positionX] = 0;
-                newMatrix[this.positionY][this.positionX + 1] = 0;
-                newMatrix[this.positionY + 1][this.positionX - 1] = 0;
-                newMatrix[this.positionY + 1][this.positionX] = 0;
-                newMatrix[this.positionY + 1][this.positionX + 1] = 0;
-            } else if ((this.positionX==0) && (this.positionY ==0)) {
-                this.matrix[this.positionY][this.positionX] = 0;
-                this.matrix[this.positionY+1][this.positionX] = 0;
-                this.matrix[this.positionY][this.positionX+1] = 0;
-                this.matrix[this.positionY+1][this.positionX+1] = 0;
-            } else if ((this.positionX==0) && (this.positionY >0) && (this.positionY <this.height)) {
-                this.matrix[this.positionY-1][this.positionX] = 0;
-                this.matrix[this.positionY][this.positionX] = 0;
-                this.matrix[this.positionY+1][this.positionX] = 0;
-                this.matrix[this.positionY-1][this.positionX+1] = 0;
-                this.matrix[this.positionY][this.positionX+1] = 0;
-                this.matrix[this.positionY+1][this.positionX+1] = 0;
-            } else if ((this.positionX==0) && (this.positionY ==this.height)) {
-                this.matrix[this.positionY-1][this.positionX] = 0;
-                this.matrix[this.positionY][this.positionX] = 0;
-                this.matrix[this.positionY-1][this.positionX+1] = 0;
-                this.matrix[this.positionY][this.positionX+1] = 0;
-            } else if ((this.positionY==0) && (this.positionX >0) && (this.positionX <this.width)) {
-                this.matrix[this.positionY][this.positionX-1] = 0;
-                this.matrix[this.positionY+1][this.positionX-1] = 0;
-                this.matrix[this.positionY][this.positionX] = 0;
-                this.matrix[this.positionY+1][this.positionX] = 0;
-                this.matrix[this.positionY][this.positionX+1] = 0;
-                this.matrix[this.positionY+1][this.positionX+1] = 0;
-            } else if ((this.positionY==0) && (this.positionX=this.width)) {
-                this.matrix[this.positionY][this.positionX-1] = 0;
-                this.matrix[this.positionY+1][this.positionX-1] = 0;
-                this.matrix[this.positionY][this.positionX] = 0;
-                this.matrix[this.positionY+1][this.positionX] = 0;
-            } else if ((this.positionY==this.height) && (this.positionX >0) && (this.positionX <this.width)) {
-                this.matrix[this.positionY-1][this.positionX-1] = 0;
-                this.matrix[this.positionY][this.positionX-1] = 0;
-                this.matrix[this.positionY-1][this.positionX] = 0;
-                this.matrix[this.positionY][this.positionX] = 0;
-                this.matrix[this.positionY-1][this.positionX+1] = 0;
-                this.matrix[this.positionY][this.positionX+1] = 0;
-            } else if ((this.positionX==this.width) && (this.positionY >0) && (this.positionY <this.height)) {
-                this.matrix[this.positionY-1][this.positionX-1] = 0;
-                this.matrix[this.positionY][this.positionX-1] = 0;
-                this.matrix[this.positionY+1][this.positionX-1] = 0;
-                this.matrix[this.positionY-1][this.positionX] = 0;
-                this.matrix[this.positionY][this.positionX] = 0;
-                this.matrix[this.positionY+1][this.positionX] = 0;
-            } else if ((this.positionX==this.width) && (this.positionY ==this.height)){
-                this.matrix[this.positionY-1][this.positionX-1] = 0;
-                this.matrix[this.positionY][this.positionX-1] = 0;
-                this.matrix[this.positionY-1][this.positionX] = 0;
-                this.matrix[this.positionY][this.positionX] = 0;
-            }
+            const neightbourItems = [ [this.positionY - 1, this.positionX - 1], [this.positionY - 1, this.positionX],
+                [this.positionY - 1, this.positionX + 1], [this.positionY, this.positionX - 1],
+                [this.positionY, this.positionX], [this.positionY, this.positionX + 1], [this.positionY + 1, this.positionX - 1],
+                [this.positionY + 1, this.positionX], [this.positionY + 1, this.positionX + 1]
+                ];
+            neightbourItems.forEach(element => {
+                // console.log(element);
+                // console.log(newMatrix[element[0]][element[1]]);
+                if (newMatrix[element[0]][element[1]] !== undefined) {
+                    newMatrix[element[0]][element[1]] = 0;
+                }
+
+            });
+
+            // newMatrix[this.positionX][this.positionY] = 0;
+            // if ((this.positionX>0) &&(this.positionX<this.width) && (this.positionY >0) && (this.positionY<this.height)) {
+            //
+            //
+            //     newMatrix[this.positionY + 1][this.positionX - 1] = 0;
+            //     newMatrix[this.positionY + 1][this.positionX] = 0;
+            //     newMatrix[this.positionY + 1][this.positionX + 1] = 0;
+            // } else if ((this.positionX==0) && (this.positionY ==0)) {
+            //     this.matrix[this.positionY][this.positionX] = 0;
+            //     this.matrix[this.positionY+1][this.positionX] = 0;
+            //     this.matrix[this.positionY][this.positionX+1] = 0;
+            //     this.matrix[this.positionY+1][this.positionX+1] = 0;
+            // } else if ((this.positionX==0) && (this.positionY >0) && (this.positionY <this.height)) {
+            //     this.matrix[this.positionY-1][this.positionX] = 0;
+            //     this.matrix[this.positionY][this.positionX] = 0;
+            //     this.matrix[this.positionY+1][this.positionX] = 0;
+            //     this.matrix[this.positionY-1][this.positionX+1] = 0;
+            //     this.matrix[this.positionY][this.positionX+1] = 0;
+            //     this.matrix[this.positionY+1][this.positionX+1] = 0;
+            // } else if ((this.positionX==0) && (this.positionY ==this.height)) {
+            //     this.matrix[this.positionY-1][this.positionX] = 0;
+            //     this.matrix[this.positionY][this.positionX] = 0;
+            //     this.matrix[this.positionY-1][this.positionX+1] = 0;
+            //     this.matrix[this.positionY][this.positionX+1] = 0;
+            // } else if ((this.positionY==0) && (this.positionX >0) && (this.positionX <this.width)) {
+            //     this.matrix[this.positionY][this.positionX-1] = 0;
+            //     this.matrix[this.positionY+1][this.positionX-1] = 0;
+            //     this.matrix[this.positionY][this.positionX] = 0;
+            //     this.matrix[this.positionY+1][this.positionX] = 0;
+            //     this.matrix[this.positionY][this.positionX+1] = 0;
+            //     this.matrix[this.positionY+1][this.positionX+1] = 0;
+            // } else if ((this.positionY==0) && (this.positionX=this.width)) {
+            //     this.matrix[this.positionY][this.positionX-1] = 0;
+            //     this.matrix[this.positionY+1][this.positionX-1] = 0;
+            //     this.matrix[this.positionY][this.positionX] = 0;
+            //     this.matrix[this.positionY+1][this.positionX] = 0;
+            // } else if ((this.positionY==this.height) && (this.positionX >0) && (this.positionX <this.width)) {
+            //     this.matrix[this.positionY-1][this.positionX-1] = 0;
+            //     this.matrix[this.positionY][this.positionX-1] = 0;
+            //     this.matrix[this.positionY-1][this.positionX] = 0;
+            //     this.matrix[this.positionY][this.positionX] = 0;
+            //     this.matrix[this.positionY-1][this.positionX+1] = 0;
+            //     this.matrix[this.positionY][this.positionX+1] = 0;
+            // } else if ((this.positionX==this.width) && (this.positionY >0) && (this.positionY <this.height)) {
+            //     this.matrix[this.positionY-1][this.positionX-1] = 0;
+            //     this.matrix[this.positionY][this.positionX-1] = 0;
+            //     this.matrix[this.positionY+1][this.positionX-1] = 0;
+            //     this.matrix[this.positionY-1][this.positionX] = 0;
+            //     this.matrix[this.positionY][this.positionX] = 0;
+            //     this.matrix[this.positionY+1][this.positionX] = 0;
+            // } else if ((this.positionX==this.width) && (this.positionY ==this.height)){
+            //     this.matrix[this.positionY-1][this.positionX-1] = 0;
+            //     this.matrix[this.positionY][this.positionX-1] = 0;
+            //     this.matrix[this.positionY-1][this.positionX] = 0;
+            //     this.matrix[this.positionY][this.positionX] = 0;
+            // }
             this.matrix = newMatrix;
             this.colorBoard();
         }
