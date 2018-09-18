@@ -1,7 +1,5 @@
 
-
 document.addEventListener("DOMContentLoaded", function(){
-    console.log("działa");
 
     class Game {
         constructor(setWidth, setHeight){
@@ -25,10 +23,9 @@ document.addEventListener("DOMContentLoaded", function(){
             this.element = null;
             this.isSwitchedSideKeys = false;
             this.isWandClicked = false;
-            this.isSlowedDown = false;
             this.isElementUpsideDown = false;
+            this.slowDownTimesToUse = 4;
             this.wandTimesToUse = 4;
-
 
         }
         createBoard() {
@@ -71,70 +68,11 @@ document.addEventListener("DOMContentLoaded", function(){
                 [this.positionY + 1, this.positionX], [this.positionY + 1, this.positionX + 1]
                 ];
             neightbourItems.forEach(element => {
-                // console.log(element);
-                // console.log(newMatrix[element[0]][element[1]]);
                 if (newMatrix[element[0]][element[1]] !== undefined) {
                     newMatrix[element[0]][element[1]] = 0;
                 }
-
             });
 
-            // newMatrix[this.positionX][this.positionY] = 0;
-            // if ((this.positionX>0) &&(this.positionX<this.width) && (this.positionY >0) && (this.positionY<this.height)) {
-            //
-            //
-            //     newMatrix[this.positionY + 1][this.positionX - 1] = 0;
-            //     newMatrix[this.positionY + 1][this.positionX] = 0;
-            //     newMatrix[this.positionY + 1][this.positionX + 1] = 0;
-            // } else if ((this.positionX==0) && (this.positionY ==0)) {
-            //     this.matrix[this.positionY][this.positionX] = 0;
-            //     this.matrix[this.positionY+1][this.positionX] = 0;
-            //     this.matrix[this.positionY][this.positionX+1] = 0;
-            //     this.matrix[this.positionY+1][this.positionX+1] = 0;
-            // } else if ((this.positionX==0) && (this.positionY >0) && (this.positionY <this.height)) {
-            //     this.matrix[this.positionY-1][this.positionX] = 0;
-            //     this.matrix[this.positionY][this.positionX] = 0;
-            //     this.matrix[this.positionY+1][this.positionX] = 0;
-            //     this.matrix[this.positionY-1][this.positionX+1] = 0;
-            //     this.matrix[this.positionY][this.positionX+1] = 0;
-            //     this.matrix[this.positionY+1][this.positionX+1] = 0;
-            // } else if ((this.positionX==0) && (this.positionY ==this.height)) {
-            //     this.matrix[this.positionY-1][this.positionX] = 0;
-            //     this.matrix[this.positionY][this.positionX] = 0;
-            //     this.matrix[this.positionY-1][this.positionX+1] = 0;
-            //     this.matrix[this.positionY][this.positionX+1] = 0;
-            // } else if ((this.positionY==0) && (this.positionX >0) && (this.positionX <this.width)) {
-            //     this.matrix[this.positionY][this.positionX-1] = 0;
-            //     this.matrix[this.positionY+1][this.positionX-1] = 0;
-            //     this.matrix[this.positionY][this.positionX] = 0;
-            //     this.matrix[this.positionY+1][this.positionX] = 0;
-            //     this.matrix[this.positionY][this.positionX+1] = 0;
-            //     this.matrix[this.positionY+1][this.positionX+1] = 0;
-            // } else if ((this.positionY==0) && (this.positionX=this.width)) {
-            //     this.matrix[this.positionY][this.positionX-1] = 0;
-            //     this.matrix[this.positionY+1][this.positionX-1] = 0;
-            //     this.matrix[this.positionY][this.positionX] = 0;
-            //     this.matrix[this.positionY+1][this.positionX] = 0;
-            // } else if ((this.positionY==this.height) && (this.positionX >0) && (this.positionX <this.width)) {
-            //     this.matrix[this.positionY-1][this.positionX-1] = 0;
-            //     this.matrix[this.positionY][this.positionX-1] = 0;
-            //     this.matrix[this.positionY-1][this.positionX] = 0;
-            //     this.matrix[this.positionY][this.positionX] = 0;
-            //     this.matrix[this.positionY-1][this.positionX+1] = 0;
-            //     this.matrix[this.positionY][this.positionX+1] = 0;
-            // } else if ((this.positionX==this.width) && (this.positionY >0) && (this.positionY <this.height)) {
-            //     this.matrix[this.positionY-1][this.positionX-1] = 0;
-            //     this.matrix[this.positionY][this.positionX-1] = 0;
-            //     this.matrix[this.positionY+1][this.positionX-1] = 0;
-            //     this.matrix[this.positionY-1][this.positionX] = 0;
-            //     this.matrix[this.positionY][this.positionX] = 0;
-            //     this.matrix[this.positionY+1][this.positionX] = 0;
-            // } else if ((this.positionX==this.width) && (this.positionY ==this.height)){
-            //     this.matrix[this.positionY-1][this.positionX-1] = 0;
-            //     this.matrix[this.positionY][this.positionX-1] = 0;
-            //     this.matrix[this.positionY-1][this.positionX] = 0;
-            //     this.matrix[this.positionY][this.positionX] = 0;
-            // }
             this.matrix = newMatrix;
             this.colorBoard();
         }
@@ -154,7 +92,6 @@ document.addEventListener("DOMContentLoaded", function(){
             }
             return rotatedElement;
         }
-
 
         changeDirection(event) {
             switch(event.which) {
@@ -236,7 +173,6 @@ document.addEventListener("DOMContentLoaded", function(){
             return false;
         }
 
-
         showElement(){
             for (let i=0; i<this.element.length; i++) {
                 for( let j=0; j < this.element[i].length; j++) {
@@ -251,8 +187,6 @@ document.addEventListener("DOMContentLoaded", function(){
                 }
             }
         }
-
-
 
         addElementToMatrix(){
             for (let i=0; i<this.element.length; i++) {
@@ -360,7 +294,6 @@ document.addEventListener("DOMContentLoaded", function(){
             }
         }
 
-
         colorBoard() {
             for (let i=0; i < this.height; i++) {
                 for (let j=0; j < this.width; j++) {
@@ -385,6 +318,7 @@ document.addEventListener("DOMContentLoaded", function(){
             this.showElement()
             this.colorBoard();
             this.changeInt(250);
+            this.handleButtons();
         }
 
         changeInt(val){
@@ -398,42 +332,75 @@ document.addEventListener("DOMContentLoaded", function(){
             }, val );
         }
 
-        slowDownOnKey(){
-            clearInterval(this.idSetInterval);
-            const self = this;
-            this.changeInt(1000);
+
+        handleRotateButton() {
+            document.querySelector('.tetris_rotate').addEventListener('click', (e)=> {
+                document.querySelector('#tetris').style.transform = document.querySelector('#tetris').style.transform == 'rotate(180deg)' ? 'rotate(0deg)' : 'rotate(180deg)';
+                e.target.innerText = document.querySelector('#tetris').style.transform == 'rotate(180deg)' ? 'Tetris rotated' : 'Rotate tetris';
+            });
         }
 
-        // handleMagicWand(){
-        //     clearInterval(this.idSetInterval);
-        //     this.isWandClicked = true;
-        //     let self = this;
-        //     this.board.forEach((element, number => {
-        //         element.addEventListener('click', () => {
-        //
-        //             let x = number%this.width;
-        //             let y = Math.floor(number/self.width);
-        //
-        //             let element = this.index(y,x);
-        //             if (this.matrix[x][y] == 1) {
-        //                 // console.log(this.matrix[i][j]);
-        //                 this.board[element].style.backgroundColor = 'white';
-        //                 this.matrix[x][y] == 0;
-        //             } else {
-        //                 this.board[element].style.backgroundColor = 'black';
-        //                 this.matrix[x][y] == 1;
-        //             }
-        //             self.isWandClicked = false;
-        //         });
-        //     });
-        //
-        //     // handleClick(element);
-        //     changeInt(250);
-        // }
-        //
-        // handleClick(){
-        //
-        // }
+        handleSlowDownButton() {
+            const self = this;
+            document.querySelector('.tetris_slowDown').addEventListener('click', (e)=> {
+                self.slowDownTimesToUse--;
+                if (self.slowDownTimesToUse == 0) {
+                    e.target.disabled = true;
+                }
+                clearInterval(self.idSetInterval);
+                self.changeInt(1000);
+            });
+        }
+
+        handleChageKeysButton(){
+            const self = this;
+            document.querySelector('.tetris_keys').addEventListener('click', ()=> {
+                self.isSwitchedSideKeys = self.isSwitchedSideKeys== false ? true : false;
+                document.querySelector('.tetris_keys').innerText = self.isSwitchedSideKeys==false ? 'Switch sides' : 'Sides are switched'
+            });
+        }
+
+        handleWandButton(){
+            const self = this;
+            document.querySelector('.tetris_changeElement').addEventListener('click', ()=> {
+                clearInterval(self.idSetInterval);
+                self.isWandClicked = true;
+                self.board.forEach((element, index) => {
+                    element.addEventListener('click', (e) => {
+                        console.log('klik');
+                        self.changeInt(250);
+                        console.log(e.target);
+                        console.log(index);
+                    });
+                });
+                // this.board.forEach((element, number => {
+                //     element.addEventListener('click', () => {
+                //
+                //         let x = number%this.width;
+                //         let y = Math.floor(number/self.width);
+                //
+                //         let element = this.index(y,x);
+                //         if (this.matrix[x][y] == 1) {
+                //             // console.log(this.matrix[i][j]);
+                //             this.board[element].style.backgroundColor = 'white';
+                //             this.matrix[x][y] == 0;
+                //         } else {
+                //             this.board[element].style.backgroundColor = 'black';
+                //             this.matrix[x][y] == 1;
+                //         }
+                //         self.isWandClicked = false;
+                //     });
+                // });
+                //
+            });
+        }
+
+        handleButtons(){
+            this.handleRotateButton();
+            this.handleSlowDownButton();
+            this.handleChageKeysButton();
+            this.handleWandButton();
+        }
 
         finishGame() {
             clearInterval(this.idSetInterval);
@@ -481,7 +448,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 // console.log('mam dane');
                 dataWhole = data;
                 dataJoke = data.value;
-                console.log(dataWhole);
+                // console.log(dataWhole);
                 console.log(dataJoke);
                 console.log(dataJoke.indexOf('Chuck'));
 
@@ -489,7 +456,6 @@ document.addEventListener("DOMContentLoaded", function(){
                     if (dataJoke.indexOf(element) !== -1) {
                         console.log('losuj jeszzce raz');
                         isInappropriate = true;
-
                     }
                 });
             })
@@ -497,7 +463,6 @@ document.addEventListener("DOMContentLoaded", function(){
                 console.log(err);
                 let randomNumber = Math.floor(Math.random()*3);
                 dataJoke = jokesTable[randomNumber];
-                // console.log(randomNumber);
                 isInappropriate = true;
             });
         if(countChuck > 10) {
@@ -506,7 +471,6 @@ document.addEventListener("DOMContentLoaded", function(){
             isInappropriate = true;
         }
     }
-
 
     document.querySelector('.introduction_button').addEventListener('click', (element) => {
         let newWidth = document.querySelector('.introduction_input[name="width"]').value;
@@ -530,29 +494,8 @@ document.addEventListener("DOMContentLoaded", function(){
 
             });
 
-            document.querySelector('.tetris_rotate').addEventListener('click', ()=> {
-                document.querySelector('#tetris').style.transform = document.querySelector('#tetris').style.transform == 'rotate(180deg)' ? 'rotate(0deg)' : 'rotate(180deg)';
-            });
-
-            document.querySelector('.tetris_keys').addEventListener('click', ()=> {
-                game.isSwitchedSideKeys = game.isSwitchedSideKeys== false ? true : false;
-                document.querySelector('.tetris_keys').innerText = game.isSwitchedSideKeys==false ? 'Switch sides' : 'Sides are switched'
-                // console.log(game.isSwitchedSideKeys);
-            });
-
-            document.querySelector('.tetris_slowDown').addEventListener('click', ()=> {
-                game.slowDownOnKey();
-            });
-
-            // document.querySelector('.tetris_changeElement').addEventListener('click', ()=> {
-            //     game.handleMagicWand();
-            // });
-
         } else {
             document.querySelector('.introduction_message').innerText = 'Please choose numbers between 10-20';
         }
-
     });
-
-
 });

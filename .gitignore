@@ -1,0 +1,10 @@
+.idea
+node_modules
+package.json
+package-lock.json
+webpack.config.js
+.idea/workspace.xml
+js/newtetris.js
+js/newtetris.jsx
+js/newtetris_ES6_kopia.jsx
+js/newtetris_ES6_kopia20180918.jsx
