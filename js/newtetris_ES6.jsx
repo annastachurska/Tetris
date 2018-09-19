@@ -22,11 +22,7 @@ document.addEventListener("DOMContentLoaded", function(){
             this.positionY = 0;
             this.element = null;
             this.isSwitchedSideKeys = false;
-            this.isWandClicked = false;
-            this.isElementUpsideDown = false;
             this.slowDownTimesToUse = 4;
-            this.wandTimesToUse = 4;
-
         }
         createBoard() {
             this.boardContainer.style.width = String(this.width * 20) + "px";
@@ -59,20 +55,28 @@ document.addEventListener("DOMContentLoaded", function(){
             return this.elementTable[number];
         }
 
-
         detonateBomb(){
             const newMatrix = this.matrix;
-            const neightbourItems = [ [this.positionY - 1, this.positionX - 1], [this.positionY - 1, this.positionX],
-                [this.positionY - 1, this.positionX + 1], [this.positionY, this.positionX - 1],
-                [this.positionY, this.positionX], [this.positionY, this.positionX + 1], [this.positionY + 1, this.positionX - 1],
-                [this.positionY + 1, this.positionX], [this.positionY + 1, this.positionX + 1]
+            let neightbourItems = [];
+
+            if (this.positionY == this.height-1) {
+                neightbourItems = [ [this.positionY - 1, this.positionX - 1], [this.positionY - 1, this.positionX],
+                    [this.positionY - 1, this.positionX + 1], [this.positionY, this.positionX - 1],
+                    [this.positionY, this.positionX], [this.positionY, this.positionX + 1]
                 ];
+            } else {
+                neightbourItems = [ [this.positionY - 1, this.positionX - 1], [this.positionY - 1, this.positionX],
+                    [this.positionY - 1, this.positionX + 1], [this.positionY, this.positionX - 1],
+                    [this.positionY, this.positionX], [this.positionY, this.positionX + 1], [this.positionY + 1, this.positionX - 1],
+                    [this.positionY + 1, this.positionX], [this.positionY + 1, this.positionX + 1]
+                ];
+            }
+
             neightbourItems.forEach(element => {
                 if (newMatrix[element[0]][element[1]] !== undefined) {
                     newMatrix[element[0]][element[1]] = 0;
                 }
             });
-
             this.matrix = newMatrix;
             this.colorBoard();
         }
@@ -210,7 +214,6 @@ document.addEventListener("DOMContentLoaded", function(){
         }
 
         moveElement() {
-            // MUSZE DAC JAKO PIERWSZY KROK W STARCIE SHOW ELEMENT
             if (((this.positionY+1) <= this.height-this.element.length) &&(!(this.checkCollisionWithMatrix()))) {
                 this.hideElement();
                 this.positionY += 1;
@@ -273,7 +276,6 @@ document.addEventListener("DOMContentLoaded", function(){
             while (shouldRepeat) {
                 shouldRepeat = false;
                 let newMatrix =[];
-                // newMatrix.push(Array(...Array(this.width)).map(() => 0));
                 let newMatrixRaw = new Array(this.width).fill('0');
                 newMatrix.push(newMatrixRaw);
                 for (let i=this.matrix.length-1; i>=0; i--){
@@ -309,6 +311,7 @@ document.addEventListener("DOMContentLoaded", function(){
         }
 
         startGame() {
+            document.querySelector('.tetris_slowDown').innerText = `Slow down (${this.slowDownTimesToUse} to use)`;
             this.createBoard();
             this.createMatrix();
             this.setStartingElement();
@@ -326,12 +329,12 @@ document.addEventListener("DOMContentLoaded", function(){
             this.idSetInterval = setInterval(function() {
                 self.moveElement();
                 if (self.positionY ==0) {
+                    self.handleSlowDownButtonVisibility();
                     clearInterval(self.idSetInterval);
                     self.changeInt(250);
                 }
             }, val );
         }
-
 
         handleRotateButton() {
             document.querySelector('.tetris_rotate').addEventListener('click', (e)=> {
@@ -344,12 +347,19 @@ document.addEventListener("DOMContentLoaded", function(){
             const self = this;
             document.querySelector('.tetris_slowDown').addEventListener('click', (e)=> {
                 self.slowDownTimesToUse--;
-                if (self.slowDownTimesToUse == 0) {
-                    e.target.disabled = true;
-                }
                 clearInterval(self.idSetInterval);
                 self.changeInt(1000);
+                document.querySelector('.tetris_slowDown').disabled = true;
+                document.querySelector('.tetris_slowDown').innerText = `Slow down (${this.slowDownTimesToUse} to use)`;
             });
+        }
+
+        handleSlowDownButtonVisibility(){
+            if (this.slowDownTimesToUse == 0) {
+                document.querySelector('.tetris_slowDown').disabled = true;
+            } else {
+                document.querySelector('.tetris_slowDown').disabled = false;
+            }
         }
 
         handleChageKeysButton(){
@@ -360,46 +370,10 @@ document.addEventListener("DOMContentLoaded", function(){
             });
         }
 
-        handleWandButton(){
-            const self = this;
-            document.querySelector('.tetris_changeElement').addEventListener('click', ()=> {
-                clearInterval(self.idSetInterval);
-                self.isWandClicked = true;
-                self.board.forEach((element, index) => {
-                    element.addEventListener('click', (e) => {
-                        console.log('klik');
-                        self.changeInt(250);
-                        console.log(e.target);
-                        console.log(index);
-                    });
-                });
-                // this.board.forEach((element, number => {
-                //     element.addEventListener('click', () => {
-                //
-                //         let x = number%this.width;
-                //         let y = Math.floor(number/self.width);
-                //
-                //         let element = this.index(y,x);
-                //         if (this.matrix[x][y] == 1) {
-                //             // console.log(this.matrix[i][j]);
-                //             this.board[element].style.backgroundColor = 'white';
-                //             this.matrix[x][y] == 0;
-                //         } else {
-                //             this.board[element].style.backgroundColor = 'black';
-                //             this.matrix[x][y] == 1;
-                //         }
-                //         self.isWandClicked = false;
-                //     });
-                // });
-                //
-            });
-        }
-
         handleButtons(){
             this.handleRotateButton();
             this.handleSlowDownButton();
             this.handleChageKeysButton();
-            this.handleWandButton();
         }
 
         finishGame() {
@@ -491,7 +465,6 @@ document.addEventListener("DOMContentLoaded", function(){
                 } else {
                     game.changeDirection(event);
                 }
-
             });
 
         } else {
