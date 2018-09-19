@@ -57,25 +57,33 @@ document.addEventListener("DOMContentLoaded", function(){
 
         detonateBomb(){
             const newMatrix = this.matrix;
-            let neightbourItems = [];
+            const neightbourItems = [ [this.positionY - 1, this.positionX - 1], [this.positionY - 1, this.positionX],
+                [this.positionY - 1, this.positionX + 1], [this.positionY, this.positionX - 1],
+                [this.positionY, this.positionX], [this.positionY, this.positionX + 1], [this.positionY + 1, this.positionX - 1],
+                [this.positionY + 1, this.positionX], [this.positionY + 1, this.positionX + 1]
+            ];
 
-            if (this.positionY == this.height-1) {
-                neightbourItems = [ [this.positionY - 1, this.positionX - 1], [this.positionY - 1, this.positionX],
-                    [this.positionY - 1, this.positionX + 1], [this.positionY, this.positionX - 1],
-                    [this.positionY, this.positionX], [this.positionY, this.positionX + 1]
-                ];
-            } else {
-                neightbourItems = [ [this.positionY - 1, this.positionX - 1], [this.positionY - 1, this.positionX],
-                    [this.positionY - 1, this.positionX + 1], [this.positionY, this.positionX - 1],
-                    [this.positionY, this.positionX], [this.positionY, this.positionX + 1], [this.positionY + 1, this.positionX - 1],
-                    [this.positionY + 1, this.positionX], [this.positionY + 1, this.positionX + 1]
-                ];
-            }
+            // if (this.positionY == this.height-1) {
+            //     neightbourItems = [ [this.positionY - 1, this.positionX - 1], [this.positionY - 1, this.positionX],
+            //         [this.positionY - 1, this.positionX + 1], [this.positionY, this.positionX - 1],
+            //         [this.positionY, this.positionX], [this.positionY, this.positionX + 1]
+            //     ];
+            // } else {
+            //     neightbourItems = [ [this.positionY - 1, this.positionX - 1], [this.positionY - 1, this.positionX],
+            //         [this.positionY - 1, this.positionX + 1], [this.positionY, this.positionX - 1],
+            //         [this.positionY, this.positionX], [this.positionY, this.positionX + 1], [this.positionY + 1, this.positionX - 1],
+            //         [this.positionY + 1, this.positionX], [this.positionY + 1, this.positionX + 1]
+            //     ];
+            // }
+
 
             neightbourItems.forEach(element => {
-                if (newMatrix[element[0]][element[1]] !== undefined) {
+                if(element[0]>=0 && element[0]<this.height && element[1]>=0 && element[1]<this.width) {
                     newMatrix[element[0]][element[1]] = 0;
                 }
+                // if (newMatrix[element[0]][element[1]] !== undefined) {
+                //     newMatrix[element[0]][element[1]] = 0;
+                // }
             });
             this.matrix = newMatrix;
             this.colorBoard();
