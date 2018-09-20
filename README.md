@@ -1,5 +1,6 @@
 # Tetris
 Game Tetris - modified version of popular Tetris game. There are additional features described below.
+Additional features allow to practise the adaptation to changes and improve spacial orientation.
 
 **Technology:** CSS3, HTML5, JS, ES6, webpack
 
