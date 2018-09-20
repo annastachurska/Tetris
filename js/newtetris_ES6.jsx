@@ -63,27 +63,10 @@ document.addEventListener("DOMContentLoaded", function(){
                 [this.positionY + 1, this.positionX], [this.positionY + 1, this.positionX + 1]
             ];
 
-            // if (this.positionY == this.height-1) {
-            //     neightbourItems = [ [this.positionY - 1, this.positionX - 1], [this.positionY - 1, this.positionX],
-            //         [this.positionY - 1, this.positionX + 1], [this.positionY, this.positionX - 1],
-            //         [this.positionY, this.positionX], [this.positionY, this.positionX + 1]
-            //     ];
-            // } else {
-            //     neightbourItems = [ [this.positionY - 1, this.positionX - 1], [this.positionY - 1, this.positionX],
-            //         [this.positionY - 1, this.positionX + 1], [this.positionY, this.positionX - 1],
-            //         [this.positionY, this.positionX], [this.positionY, this.positionX + 1], [this.positionY + 1, this.positionX - 1],
-            //         [this.positionY + 1, this.positionX], [this.positionY + 1, this.positionX + 1]
-            //     ];
-            // }
-
-
             neightbourItems.forEach(element => {
                 if(element[0]>=0 && element[0]<this.height && element[1]>=0 && element[1]<this.width) {
                     newMatrix[element[0]][element[1]] = 0;
                 }
-                // if (newMatrix[element[0]][element[1]] !== undefined) {
-                //     newMatrix[element[0]][element[1]] = 0;
-                // }
             });
             this.matrix = newMatrix;
             this.colorBoard();
@@ -157,7 +140,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     }
                     break;
 
-                case 40:
+                case 38:
                     if ((this.positionX <=(this.width - this.element.length)) && (this.positionY <=(this.height - this.element[0].length)) && (!this.checkRotatedCollision())) {
                         this.hideElement();
                         this.element = this.rotateElement();
@@ -165,7 +148,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     }
                     break;
 
-                case 38:
+                case 40:
                     clearInterval(this.idSetInterval);
                     const self = this;
                     this.changeInt(50);
@@ -222,6 +205,7 @@ document.addEventListener("DOMContentLoaded", function(){
         }
 
         moveElement() {
+            this.handleBombDescription();
             if (((this.positionY+1) <= this.height-this.element.length) &&(!(this.checkCollisionWithMatrix()))) {
                 this.hideElement();
                 this.positionY += 1;
@@ -237,6 +221,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     this.addElementToMatrix();
                 }
 
+                document.querySelector('.tetrisInfo_text').innerText = '';
                 this.removeCompleteRows();
                 this.positionY = 0;
                 this.positionX = Math.floor(this.width/2);
@@ -345,9 +330,11 @@ document.addEventListener("DOMContentLoaded", function(){
         }
 
         handleRotateButton() {
+            const self = this;
             document.querySelector('.tetris_rotate').addEventListener('click', (e)=> {
                 document.querySelector('#tetris').style.transform = document.querySelector('#tetris').style.transform == 'rotate(180deg)' ? 'rotate(0deg)' : 'rotate(180deg)';
                 e.target.innerText = document.querySelector('#tetris').style.transform == 'rotate(180deg)' ? 'Tetris rotated' : 'Rotate tetris';
+                self.isSwitchedSideKeys = self.isSwitchedSideKeys== false ? true : false;
             });
         }
 
@@ -382,6 +369,34 @@ document.addEventListener("DOMContentLoaded", function(){
             this.handleRotateButton();
             this.handleSlowDownButton();
             this.handleChageKeysButton();
+            this.handleMouseOverButtons();
+        }
+
+        handleBombDescription(){
+            if (this.number == 8) {
+                document.querySelector('.tetrisInfo_text').innerText = 'THE BOMB is falling. When it will reeach the surface it will detonate destroying everything in radius of 1 element';
+            }
+        }
+
+        handleMouseOverButtons(){
+            document.querySelector('.tetris_rotate').addEventListener('mouseenter', () => {
+                document.querySelector('.tetrisInfo_text').innerText = 'When clicked rotates board upside-down. Usage: unlimited';
+            });
+            document.querySelector('.tetris_rotate').addEventListener('mouseleave', () => {
+                document.querySelector('.tetrisInfo_text').innerText = '';
+            });
+            document.querySelector('.tetris_keys').addEventListener('mouseenter', () => {
+                document.querySelector('.tetrisInfo_text').innerText = 'When clicked the action of left and rught arrows are switched (left arrow moves element to the right and right arrow moves element to the left). Usage: unlimited';
+            });
+            document.querySelector('.tetris_keys').addEventListener('mouseleave', () => {
+                document.querySelector('.tetrisInfo_text').innerText = '';
+            });
+            document.querySelector('.tetris_slowDown').addEventListener('mouseenter', () => {
+                document.querySelector('.tetrisInfo_text').innerText = 'When clicked slows down the game for dropping of single element. Can be used 4 times';
+            });
+            document.querySelector('.tetris_slowDown').addEventListener('mouseleave', () => {
+                document.querySelector('.tetrisInfo_text').innerText = '';
+            });
         }
 
         finishGame() {
@@ -462,7 +477,7 @@ document.addEventListener("DOMContentLoaded", function(){
             let userWidth = Number(newWidth);
 
             document.querySelector('.introduction').style.display = 'none';
-            document.querySelector('.tetrisContainer').style.display = 'block';
+            document.querySelector('.tetrisContainer').style.display = 'flex';
 
             let game = new Game(userWidth, userHeight);
             game.startGame();
