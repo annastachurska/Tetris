@@ -14,9 +14,12 @@ There are four main **additional features** of this game compared with the origi
 Others:
 1. The box with description of action of selected additional button appears when the mouse is over the button of interest.
 2. Information about the bomb element appears in the box when the bomb element is falling down.
-
-**Things to do:**:
-1. Check the correctness of Chuck Norris Joke.
+3. The Chuck Norris joke was filtered and in case of inappropriate words.
 
 The graphic was downloaded from 
 https://www.wallpapervortex.com/wallpaper-20707_funny_ants_playing_tetris.html#.W5JKd6JR3IV
+
+**Status:** in progress
+
+Things to be done:
+1. Description of jsx and css

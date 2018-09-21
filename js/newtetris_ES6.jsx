@@ -1,12 +1,13 @@
 
 document.addEventListener("DOMContentLoaded", function(){
 
+    // class containing the Game
     class Game {
         constructor(setWidth, setHeight){
-            this.boardContainer = document.querySelector('section#tetris');
-            this.width = setWidth;
-            this.height = setHeight;
-            this.points = 0;
+            this.boardContainer = document.querySelector('section#tetris'); // container of all elements
+            this.width = setWidth; // setting the game width - number of elements in wrow based on User settings
+            this.height = setHeight; //setting of game height - number of elements in column based on User setting
+            this.points = 0; // number of points scored by User dugin the game
             this.elementTable = [
                 [[1],[1],[1],[1]],
                 [[1,1],[1,1]],
@@ -17,13 +18,18 @@ document.addEventListener("DOMContentLoaded", function(){
                 [[1,0,0],[1,1,1]],
                 [[0,0,1],[1,1,1]],
                 [[1]]
-            ];
-            this.positionX = Math.floor(Number(setWidth/2));
-            this.positionY = 0;
-            this.element = null;
-            this.isSwitchedSideKeys = false;
-            this.slowDownTimesToUse = 4;
+            ]; // table of items dropping down during the game
+            this.positionX = Math.floor(Number(setWidth/2)); //posiition X of item
+            this.positionY = 0; // position Y of item
+            this.element = null; // dropping-down element
+            this.isSwitchedSideKeys = false; //condition showing whether the keys are switched (rotate and switch buttons)
+            this.slowDownTimesToUse = 4; // limiter for slow-down button ti be used
         }
+
+        //function to create a board based on settings selected by user
+        // it creates elemens of board
+        // it sets the width and height of board container
+        // it creates this.board - table of all divs
         createBoard() {
             this.boardContainer.style.width = String(this.width * 20) + "px";
             this.boardContainer.style.height = String(this.height * 20) + "px";
@@ -35,6 +41,8 @@ document.addEventListener("DOMContentLoaded", function(){
             this.board = document.querySelectorAll("#tetris div");
         }
 
+        // function to create a matrix filled with 0 corresponding to elements of a board
+        // it returs 2-dimensional matrix which single item will be matrix[y][x]
         createMatrix() {
             const newMatrix = [];
             for (let i=0; i<this.height; i++) {
@@ -45,16 +53,19 @@ document.addEventListener("DOMContentLoaded", function(){
             this.matrix = newMatrix;
         }
 
+        // function which returns index of this.board corrensonding to y - rows and x-columns position of element
         index(x, y) {
             return x + (y * this.width);
         }
 
+        // function which choose randomly the element from the elementTable item and returns it
         findRandomElement() {
             let number = Math.floor(Math.random()*9);
             this.number = number;
             return this.elementTable[number];
         }
 
+        // function that detonates the bomb, returns new matrix and colors the board(update the view)
         detonateBomb(){
             const newMatrix = this.matrix;
             const neightbourItems = [ [this.positionY - 1, this.positionX - 1], [this.positionY - 1, this.positionX],
@@ -72,10 +83,12 @@ document.addEventListener("DOMContentLoaded", function(){
             this.colorBoard();
         }
 
+        // function setting up starting element return this.element
         setStartingElement() {
             this.element = this.findRandomElement();
         }
 
+        //function which rotate element - return rotated element as 2D-matrix
         rotateElement(){
             const rotatedElement = [];
             for (let i=0; i<this.element[0].length; i++){
@@ -88,6 +101,7 @@ document.addEventListener("DOMContentLoaded", function(){
             return rotatedElement;
         }
 
+        //function for handling pressed keys
         changeDirection(event) {
             switch(event.which) {
                 case 37:
@@ -122,6 +136,7 @@ document.addEventListener("DOMContentLoaded", function(){
             }
         }
 
+        //function for handling pressing of keys for special buttons (rotate tetris and switch sides)
         changeDirectionOpposite(event) {
             switch(event.which) {
                 case 39:
@@ -156,6 +171,7 @@ document.addEventListener("DOMContentLoaded", function(){
             }
         }
 
+        // function which returs boolean checking whether element can be rotated (it next position is possible and not already taken)
         checkRotatedCollision(){
             let rotated = this.rotateElement();
             for (let j=rotated.length-1; j>=0; j--) {
@@ -168,6 +184,8 @@ document.addEventListener("DOMContentLoaded", function(){
             return false;
         }
 
+        // function coloring dropping-down element
+        // for normal element it colors it in black, for bomb it colors it red
         showElement(){
             for (let i=0; i<this.element.length; i++) {
                 for( let j=0; j < this.element[i].length; j++) {
@@ -183,6 +201,9 @@ document.addEventListener("DOMContentLoaded", function(){
             }
         }
 
+        // function which add the dropping-down lement to the matrix when dropping-down is no longer possible
+        // return new this.matrix including element
+        // it does not apply to bomb element - selection done later
         addElementToMatrix(){
             for (let i=0; i<this.element.length; i++) {
                 for( let j=0; j < this.element[i].length; j++) {
@@ -193,6 +214,8 @@ document.addEventListener("DOMContentLoaded", function(){
             }
         }
 
+        //function hides element by changing it stle(background color) to white
+        // used when element is dropping down
         hideElement(){
             for (let i=0; i<this.element.length; i++) {
                 for( let j=0; j < this.element[i].length; j++) {
@@ -204,6 +227,13 @@ document.addEventListener("DOMContentLoaded", function(){
             }
         }
 
+        // function dropping down element
+        // it hides element, drops it down my adding 1 to positionY and then shows element only
+        // when element will be inside a board and will not collide with other elements
+        // additionally it calls the function handling description necessary for bomb element
+        // it stops the game if elemeent cannot fall down from initial position
+        // for collision it calls the function to add element to this.matrix or for bomb it detonates it
+        // calls setNewState - dropping down of new element
         moveElement() {
             this.handleBombDescription();
             if (((this.positionY+1) <= this.height-this.element.length) &&(!(this.checkCollisionWithMatrix()))) {
@@ -221,16 +251,24 @@ document.addEventListener("DOMContentLoaded", function(){
                     this.addElementToMatrix();
                 }
 
-                document.querySelector('.tetrisInfo_text').innerText = '';
-                this.removeCompleteRows();
-                this.positionY = 0;
-                this.positionX = Math.floor(this.width/2);
-                this.element = this.findRandomElement();
-                this.showElement();
-
+                this.setNewState();
             }
         }
 
+        // function handling dropping down of a new element
+        // removing complete rows, setting new X and Y positions and generating and showing new element;
+        setNewState(){
+            document.querySelector('.tetrisInfo_text').innerText = '';
+            this.removeCompleteRows();
+            this.positionY = 0;
+            this.positionX = Math.floor(this.width/2);
+            this.element = this.findRandomElement();
+            this.showElement();
+        }
+
+        // function which checks whether element can be mover left
+        // returns boolean
+        // returns true if it collides thus cannot be moved
         checkLeftCollision(){
             for (let j=this.element.length-1; j>=0; j--) {
                 for (let i=0; i<this.element[j].length; i++) {
@@ -242,6 +280,7 @@ document.addEventListener("DOMContentLoaded", function(){
             return false;
         }
 
+        // function similar to checkLeftCollision()
         checkRightCollision(){
             for (let j=this.element.length-1; j>=0; j--) {
                 for (let i=0; i<this.element[j].length; i++) {
@@ -253,6 +292,9 @@ document.addEventListener("DOMContentLoaded", function(){
             return false;
         }
 
+        // function which checks whether element can drop-down left
+        // returns boolean
+        // returns true if it collides thus cannot be moved
         checkCollisionWithMatrix(){
             for (let j=this.element.length-1; j>=0; j--) {
                 for (let i=0; i<this.element[0].length; i++) {
@@ -264,7 +306,9 @@ document.addEventListener("DOMContentLoaded", function(){
             return false;
         }
 
+        //function removing complete rows
         removeCompleteRows(){
+            //tutaj sprawdzic bo nie trzeba while w takim ukladzie jak jest!!!!!
             let shouldRepeat = true;
             while (shouldRepeat) {
                 shouldRepeat = false;
@@ -344,8 +388,8 @@ document.addEventListener("DOMContentLoaded", function(){
                 self.slowDownTimesToUse--;
                 clearInterval(self.idSetInterval);
                 self.changeInt(1000);
-                document.querySelector('.tetris_slowDown').disabled = true;
-                document.querySelector('.tetris_slowDown').innerText = `Slow down (${this.slowDownTimesToUse} to use)`;
+                e.target.disabled = true;
+                e.target.innerText = `Slow down (${this.slowDownTimesToUse} to use)`;
             });
         }
 
@@ -359,9 +403,9 @@ document.addEventListener("DOMContentLoaded", function(){
 
         handleChageKeysButton(){
             const self = this;
-            document.querySelector('.tetris_keys').addEventListener('click', ()=> {
+            document.querySelector('.tetris_keys').addEventListener('click', (e)=> {
                 self.isSwitchedSideKeys = self.isSwitchedSideKeys== false ? true : false;
-                document.querySelector('.tetris_keys').innerText = self.isSwitchedSideKeys==false ? 'Switch sides' : 'Sides are switched'
+                e.target.innerText = self.isSwitchedSideKeys==false ? 'Switch sides' : 'Sides are switched';
             });
         }
 
@@ -379,23 +423,18 @@ document.addEventListener("DOMContentLoaded", function(){
         }
 
         handleMouseOverButtons(){
-            document.querySelector('.tetris_rotate').addEventListener('mouseenter', () => {
-                document.querySelector('.tetrisInfo_text').innerText = 'When clicked rotates board upside-down. Usage: unlimited';
-            });
-            document.querySelector('.tetris_rotate').addEventListener('mouseleave', () => {
-                document.querySelector('.tetrisInfo_text').innerText = '';
-            });
-            document.querySelector('.tetris_keys').addEventListener('mouseenter', () => {
-                document.querySelector('.tetrisInfo_text').innerText = 'When clicked the action of left and rught arrows are switched (left arrow moves element to the right and right arrow moves element to the left). Usage: unlimited';
-            });
-            document.querySelector('.tetris_keys').addEventListener('mouseleave', () => {
-                document.querySelector('.tetrisInfo_text').innerText = '';
-            });
-            document.querySelector('.tetris_slowDown').addEventListener('mouseenter', () => {
-                document.querySelector('.tetrisInfo_text').innerText = 'When clicked slows down the game for dropping of single element. Can be used 4 times';
-            });
-            document.querySelector('.tetris_slowDown').addEventListener('mouseleave', () => {
-                document.querySelector('.tetrisInfo_text').innerText = '';
+            const btnList = [
+                ['.tetris_rotate', 'When clicked rotates board upside-down. Usage: unlimited'],
+                ['.tetris_keys', 'When clicked the action of left and rught arrows are switched (left arrow moves element to the right and right arrow moves element to the left). Usage: unlimited'],
+                ['.tetris_slowDown', 'When clicked slows down the game for dropping of single element. Can be used 4 times']
+            ];
+            btnList.forEach(element => {
+                document.querySelector(element[0]).addEventListener('mouseenter', () => {
+                    document.querySelector('.tetrisInfo_text').innerText = element[1];
+                });
+                document.querySelector(element[0]).addEventListener('mouseleave', () => {
+                    document.querySelector('.tetrisInfo_text').innerText = '';
+                });
             });
         }
 
@@ -421,53 +460,41 @@ document.addEventListener("DOMContentLoaded", function(){
         document.querySelector('.introduction').style.display = 'block';
     });
 
-    let isInappropriate = true;
-    let countChuck = 0;
+    let isInappropriate = false;
     let dataWhole = null;
     let dataJoke = null;
     let uglyWords = ['vagina', 'condom', 'rape', 'nipples', 'gay', 'fag', 'faggot', 'turd', 'scag', 'arse', 'arsehole',
         'ass', 'bastard', 'basterd', 'bellend', 'berk', 'bint', 'bitch', 'bollocks', 'bugger', 'cad', 'cack', 'cock', 'cunt',
         'crap', 'dick', 'dickhead', 'duffer', 'fuck', 'feck', 'knob', 'minger', 'munter', 'naff', 'nutter', 'piss',
-        'scrubber', 'shit', 'shite', 'tosser', 'twat', 'wank', 'wanker', 'nigger', 'nigga', 'gook', 'coon', 'spade'
+        'scrubber', 'shit', 'shite', 'tosser', 'twat', 'wank', 'wanker', 'nigger', 'nigga', 'gook', 'coon', 'spade',
+        'pregnant'
     ];
     const jokesTable = ["Chuck Norris brushes his teeth with a machine gun and flosses with a lightsaber.",
         "The only mistake that Chuck Norris has committed was when he thought he did a mistake.",
         "Chuck Norris didn't audition for walker texas ranger he made da producers audition to film his life."
     ];
 
-
-    while(isInappropriate) {
-        isInappropriate = false;
-        countChuck++;
+    function handleJoke() {
         fetch('https://api.chucknorris.io/jokes/random')
             .then(resp => resp.json())
             .then(data => {
-                // console.log('mam dane');
                 dataWhole = data;
                 dataJoke = data.value;
-                // console.log(dataWhole);
-                console.log(dataJoke);
-                console.log(dataJoke.indexOf('Chuck'));
-
                 uglyWords.forEach(element => {
                     if (dataJoke.indexOf(element) !== -1) {
-                        console.log('losuj jeszzce raz');
                         isInappropriate = true;
+                        let randomNumber = Math.floor(Math.random()*3);
+                        dataJoke = jokesTable[randomNumber];
                     }
                 });
             })
             .catch(err => {
-                console.log(err);
                 let randomNumber = Math.floor(Math.random()*3);
                 dataJoke = jokesTable[randomNumber];
                 isInappropriate = true;
             });
-        if(countChuck > 10) {
-            let randomNumber = Math.floor(Math.random()*3);
-            dataJoke = jokesTable[randomNumber];
-            isInappropriate = true;
-        }
     }
+
 
     document.querySelector('.introduction_button').addEventListener('click', (element) => {
         let newWidth = document.querySelector('.introduction_input[name="width"]').value;
@@ -489,6 +516,8 @@ document.addEventListener("DOMContentLoaded", function(){
                     game.changeDirection(event);
                 }
             });
+
+            handleJoke();
 
         } else {
             document.querySelector('.introduction_message').innerText = 'Please choose numbers between 10-20';

@@ -463,17 +463,18 @@ document.addEventListener("DOMContentLoaded", function(){
 
 
     while(isInappropriate) {
-        isInappropriate = false;
         countChuck++;
         fetch('https://api.chucknorris.io/jokes/random')
             .then(resp => resp.json())
             .then(data => {
+                isInappropriate = false;
                 // console.log('mam dane');
                 dataWhole = data;
                 dataJoke = data.value;
-                console.log(dataWhole);
+                // console.log(dataWhole);
                 console.log(dataJoke);
                 console.log(dataJoke.indexOf('Chuck'));
+                console.log('isapp', isInappropriate);
 
                 uglyWords.forEach(element => {
                     if (dataJoke.indexOf(element) !== -1) {
@@ -482,6 +483,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
                     }
                 });
+                console.log('isapp', isInappropriate);
             })
             .catch(err => {
                 console.log(err);
