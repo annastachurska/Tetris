@@ -22,4 +22,4 @@ https://www.wallpapervortex.com/wallpaper-20707_funny_ants_playing_tetris.html#.
 **Status:** in progress
 
 Things to be done:
-1. Description of jsx and css
+1. Description of css

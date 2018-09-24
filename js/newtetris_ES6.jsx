@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function(){
         createMatrix() {
             const newMatrix = [];
             for (let i=0; i<this.height; i++) {
-                let newMatrixRaw = new Array(this.width).fill('0');
+                let newMatrixRaw = new Array(this.width).fill(0);
                 //let newMatrixRaw = Array(...Array(this.width)).map(() => 0);
                 newMatrix.push(newMatrixRaw);
             }
@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function(){
             this.element = this.findRandomElement();
         }
 
-        //function which rotate element - return rotated element as 2D-matrix
+        //function which rotates element - returns rotated element as 2D-matrix
         rotateElement(){
             const rotatedElement = [];
             for (let i=0; i<this.element[0].length; i++){
@@ -201,8 +201,8 @@ document.addEventListener("DOMContentLoaded", function(){
             }
         }
 
-        // function which add the dropping-down lement to the matrix when dropping-down is no longer possible
-        // return new this.matrix including element
+        // function which adds the dropping-down lement to the matrix when dropping-down is no longer possible
+        // returns new this.matrix including element
         // it does not apply to bomb element - selection done later
         addElementToMatrix(){
             for (let i=0; i<this.element.length; i++) {
@@ -214,7 +214,7 @@ document.addEventListener("DOMContentLoaded", function(){
             }
         }
 
-        //function hides element by changing it stle(background color) to white
+        //function which hides element by changing it style(background color) to white
         // used when element is dropping down
         hideElement(){
             for (let i=0; i<this.element.length; i++) {
@@ -306,14 +306,17 @@ document.addEventListener("DOMContentLoaded", function(){
             return false;
         }
 
-        //function removing complete rows
+        // function removing complete rows
+        // removes complete rows (complete rows is a row composed of this.width(or this.matrix[i].length) of taken cells (filled with 1)
+        // function continues untill no row is removed during function
+        // it updates this.points and .tetris_points element
+        // colors board according to new this.matrix indexes
         removeCompleteRows(){
-            //tutaj sprawdzic bo nie trzeba while w takim ukladzie jak jest!!!!!
             let shouldRepeat = true;
             while (shouldRepeat) {
                 shouldRepeat = false;
                 let newMatrix =[];
-                let newMatrixRaw = new Array(this.width).fill('0');
+                let newMatrixRaw = new Array(this.width).fill(0);
                 newMatrix.push(newMatrixRaw);
                 for (let i=this.matrix.length-1; i>=0; i--){
                     let sum = this.matrix[i].reduce((prev, next) => {return prev + next});
@@ -333,12 +336,13 @@ document.addEventListener("DOMContentLoaded", function(){
             }
         }
 
+        // function with colors divs (elements of board) in white when this.matrix element is filled with 0
+        // or with black then this.matrix coresponding element is filled with 1
         colorBoard() {
             for (let i=0; i < this.height; i++) {
                 for (let j=0; j < this.width; j++) {
                     let element = this.index(j,i);
                     if (this.matrix[i][j] == 1) {
-                        // console.log(this.matrix[i][j]);
                         this.board[element].style.backgroundColor = 'black';
                     } else {
                         this.board[element].style.backgroundColor = 'white';
@@ -347,6 +351,10 @@ document.addEventListener("DOMContentLoaded", function(){
             }
         }
 
+        // function called when the games starts
+        // creates board, creates matrix willed with 0, sets starting element with is not a bomb, shows starting element,
+        // colors board, starts interval with 250ms and adds function for handling buttons
+        // updates the innerTest in slowDown button
         startGame() {
             document.querySelector('.tetris_slowDown').innerText = `Slow down (${this.slowDownTimesToUse} to use)`;
             this.createBoard();
@@ -361,6 +369,9 @@ document.addEventListener("DOMContentLoaded", function(){
             this.handleButtons();
         }
 
+        // function which takes as a argument the time to be set as interval in the game (time between drop of element for 1 row down)
+        // if new element appear (positionY =0) it clears interval and starts it again with defauls setting 250 - done for handling slow-down button
+        // it also updates the disable status for slow-down button
         changeInt(val){
             let self = this;
             this.idSetInterval = setInterval(function() {
@@ -373,6 +384,9 @@ document.addEventListener("DOMContentLoaded", function(){
             }, val );
         }
 
+        // function for adding event after click on rotate button
+        // apart rotating board it adapts innerText in rotate button
+        // it switches action of left and right arrow to make it easier for player (left will be player left not board left)
         handleRotateButton() {
             const self = this;
             document.querySelector('.tetris_rotate').addEventListener('click', (e)=> {
@@ -382,6 +396,9 @@ document.addEventListener("DOMContentLoaded", function(){
             });
         }
 
+        // function for adding event after click on slowDown button
+        // it clears interval, sets new one with time 1s, disables the button for time of dropping of 1 element
+        // redues this.slowDownTimesToUse and updates innerText in the button accordingly
         handleSlowDownButton() {
             const self = this;
             document.querySelector('.tetris_slowDown').addEventListener('click', (e)=> {
@@ -393,6 +410,8 @@ document.addEventListener("DOMContentLoaded", function(){
             });
         }
 
+        // function which updates the disabled attribute for slowDown button according to this.slowDownTimesToUse
+        // thus accorrding to number of times which it has been already used
         handleSlowDownButtonVisibility(){
             if (this.slowDownTimesToUse == 0) {
                 document.querySelector('.tetris_slowDown').disabled = true;
@@ -401,6 +420,9 @@ document.addEventListener("DOMContentLoaded", function(){
             }
         }
 
+        // function for adding event after click on keys button
+        // it modifies the parameter this.isSwitchedSideKesy which chooses the function for handling keys
+        // it modifies the innerText on key button
         handleChageKeysButton(){
             const self = this;
             document.querySelector('.tetris_keys').addEventListener('click', (e)=> {
@@ -409,6 +431,8 @@ document.addEventListener("DOMContentLoaded", function(){
             });
         }
 
+        // function containing all functions necessary for handling additional keys and presence of description of buttons
+        // and action when mouse will be over button of interest
         handleButtons(){
             this.handleRotateButton();
             this.handleSlowDownButton();
@@ -416,12 +440,16 @@ document.addEventListener("DOMContentLoaded", function(){
             this.handleMouseOverButtons();
         }
 
+        // function which sets the descriptin of bomb in .tetrisInfo_text element when bomb is picked up
         handleBombDescription(){
             if (this.number == 8) {
                 document.querySelector('.tetrisInfo_text').innerText = 'THE BOMB is falling. When it will reeach the surface it will detonate destroying everything in radius of 1 element';
             }
         }
 
+        // function for adding event after mouseenter and mouseleave on additional buttons(rotate, key and slow down)
+        // it shows the description of button when mouse will enter the button of interest and removes the description
+        // when mouse will leave the button
         handleMouseOverButtons(){
             const btnList = [
                 ['.tetris_rotate', 'When clicked rotates board upside-down. Usage: unlimited'],
@@ -438,6 +466,8 @@ document.addEventListener("DOMContentLoaded", function(){
             });
         }
 
+        // function handling finishing the game
+        // it shows .finishedGame element and hides .tetrisContainer(game)
         finishGame() {
             clearInterval(this.idSetInterval);
             let finalDiv = document.querySelector('.finishedGame');
@@ -454,7 +484,7 @@ document.addEventListener("DOMContentLoaded", function(){
         }
     }
 
-
+    // adding event listener to start button allowing starting the game
     document.querySelector('.start_button').addEventListener('click', () => {
         document.querySelector('.start').style.display = 'none';
         document.querySelector('.introduction').style.display = 'block';
@@ -474,11 +504,14 @@ document.addEventListener("DOMContentLoaded", function(){
         "Chuck Norris didn't audition for walker texas ranger he made da producers audition to film his life."
     ];
 
+    // function which downloads the random joke about Chuck Norris from API
+    // if joke contains any of words present in unglyWords table it will be replaced with random joke about CHN from jokesTable
+    // if will will be impossible to connect with API the dataJoke will be created as a random joke about CHN from jokesTable
     function handleJoke() {
         fetch('https://api.chucknorris.io/jokes/random')
             .then(resp => resp.json())
             .then(data => {
-                dataWhole = data;
+                // dataWhole = data;
                 dataJoke = data.value;
                 uglyWords.forEach(element => {
                     if (dataJoke.indexOf(element) !== -1) {
@@ -495,7 +528,11 @@ document.addEventListener("DOMContentLoaded", function(){
             });
     }
 
-
+    // function that adds event listner to introduction button which allows to proceed only when selected value is in designed range
+    // it creates new game based on values defined by Player and starts it
+    // it closes the introductory element and displays the game
+    // it adds event listener allowing response of game to player key-pressing
+    // it downloads joke about ChuckNorris used reward
     document.querySelector('.introduction_button').addEventListener('click', (element) => {
         let newWidth = document.querySelector('.introduction_input[name="width"]').value;
         let newHeight = document.querySelector('.introduction_input[name="height"]').value;
