@@ -5,7 +5,7 @@ After completing the game the User is rewarded with random Chuck Norris Joke dow
 
 **Technology:** CSS3, HTML5, JS, ES6, webpack
 
-**Instalation:** Webpack is required for installation. Webpack file is added. For instalation you have to use npm install command.
+**Installation:** Webpack is required for installation. Webpack file is added. For installation you have to use npm install command.
 
 There are four main **additional features** of this game compared with the original one:
 1. The presesence of an additional button: **rotate tetris**. It rotates the game-board upside-down. When clicking the button again the game returns to normal.

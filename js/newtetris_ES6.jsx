@@ -477,7 +477,6 @@ document.addEventListener("DOMContentLoaded", function(){
         // it shows .finishedGame element and hides .tetrisContainer(game)
         finishGame() {
             clearInterval(this.idSetInterval);
-            // console.log('final');
             let finalDiv = document.querySelector('.finishedGame');
             document.querySelector('.tetrisContainer').style.display = 'none';
             finalDiv.style.display = 'block';
@@ -523,7 +522,6 @@ document.addEventListener("DOMContentLoaded", function(){
         fetch('https://api.chucknorris.io/jokes/random')
             .then(resp => resp.json())
             .then(data => {
-                // dataWhole = data;
                 dataJoke = data.value;
                 uglyWords.forEach(element => {
                     if (dataJoke.indexOf(element) !== -1) {
