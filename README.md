@@ -20,5 +20,5 @@ Others:
 The graphic was downloaded from 
 https://www.wallpapervortex.com/wallpaper-20707_funny_ants_playing_tetris.html#.W5JKd6JR3IV
 
-**Status:** in progress
-to be done: cleaning
+**Status:** completed
+

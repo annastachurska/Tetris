@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", function(){
             this.element = null; // dropping-down element
             this.isSwitchedSideKeys = false; //condition showing whether the keys are switched (rotate and switch buttons)
             this.slowDownTimesToUse = 4; // limiter for slow-down button ti be used
+            this.isFinished = false; // states whether game is finished
         }
 
         //function to create a board based on settings selected by user
@@ -242,6 +243,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 this.showElement();
             } else {
                 if (this.positionY == 0) {
+                    this.isFinished = true;
                     this.finishGame();
                 }
 
@@ -377,14 +379,16 @@ document.addEventListener("DOMContentLoaded", function(){
         // it also updates the disable status for slow-down button
         changeInt(val){
             let self = this;
-            this.idSetInterval = setInterval(function() {
-                self.moveElement();
-                if (self.positionY ==0) {
-                    self.handleSlowDownButtonVisibility();
-                    clearInterval(self.idSetInterval);
-                    self.changeInt(250);
-                }
-            }, val );
+            if (this.isFinished == false) {
+                this.idSetInterval = setInterval(function() {
+                    self.moveElement();
+                    if (self.positionY ==0) {
+                        self.handleSlowDownButtonVisibility();
+                        clearInterval(self.idSetInterval);
+                        self.changeInt(250);
+                    }
+                }, val );
+            }
         }
 
         // function for adding event after click on rotate button
@@ -473,6 +477,7 @@ document.addEventListener("DOMContentLoaded", function(){
         // it shows .finishedGame element and hides .tetrisContainer(game)
         finishGame() {
             clearInterval(this.idSetInterval);
+            // console.log('final');
             let finalDiv = document.querySelector('.finishedGame');
             document.querySelector('.tetrisContainer').style.display = 'none';
             finalDiv.style.display = 'block';
@@ -484,12 +489,8 @@ document.addEventListener("DOMContentLoaded", function(){
                 document.querySelector('.finishedGame_text').innerText = "Here is your reward.";
             }
             document.querySelector('.finishedGame_joke').innerText = dataJoke;
-            // console.log('czydlugi');
-            // console.log('dataJoke');
-            // console.log(dataJoke.length);
+
             if (dataJoke.length > 180) {
-                // console.log('dlugi');
-                // console.log('dataJoke');
                 document.querySelector('.finishedGame_joke').style.fontSize = '22px';
             }
         }
