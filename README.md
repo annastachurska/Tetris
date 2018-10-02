@@ -14,9 +14,9 @@ There are four main **additional features** of this game compared with the origi
 4. **Bomb element**. It is marked red. When it drops down and collides with elements already present on the board or with board it detonates all already occupied elements in rage of 1 box.
 
 Others (game handling):
-1. Description box
-a) The box with description of action of selected additional special button appears when the mouse is over the button of interest.
-b) Information about the bomb element appears in the box when the bomb element is falling down.
+1. Description box.
+- The description of action of selected additional special button appears inside the box when the mouse is over the button of interest.
+- Information about the bomb element appears in the box when the bomb element is falling down.
 2. The Chuck Norris joke is filtered for the presence of inappropriate words.
 
 The graphic was downloaded from 
