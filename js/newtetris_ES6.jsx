@@ -308,31 +308,34 @@ document.addEventListener("DOMContentLoaded", function(){
 
         // function removing complete rows
         // removes complete rows (complete rows is a row composed of this.width(or this.matrix[i].length) of taken cells (filled with 1)
-        // function continues untill no row is removed during function
         // it updates this.points and .tetris_points element
         // colors board according to new this.matrix indexes
         removeCompleteRows(){
-            let shouldRepeat = true;
-            while (shouldRepeat) {
-                shouldRepeat = false;
-                let newMatrix =[];
-                let newMatrixRaw = new Array(this.width).fill(0);
-                newMatrix.push(newMatrixRaw);
-                for (let i=this.matrix.length-1; i>=0; i--){
-                    let sum = this.matrix[i].reduce((prev, next) => {return prev + next});
-                    if (sum == this.matrix[i].length) {
-                        shouldRepeat = true;
-                        this.points++;
-                        document.querySelector('.tetris_points').innerText = "Points: " + this.points;
-                        for (let j=0; j < this.matrix.length; j++) {
-                            if ((j<i) || (j>i)) {
-                                newMatrix.push(this.matrix[j]);
-                            }
-                        }
-                        this.matrix = newMatrix;
-                        this.colorBoard();
+            const toRemove = [];
+            const newMatrix =[];
+
+            for (let i=0; i<this.matrix.length; i++) {
+                let sum = this.matrix[i].reduce((prev, next) => {return prev + next});
+                if (sum == this.matrix[i].length) {
+                    toRemove.push(1);
+                    let newMatrixRaw = new Array(this.width).fill(0);
+                    newMatrix.push(newMatrixRaw);
+                    this.points++;
+                } else {
+                    toRemove.push(0);
+                }
+            }
+
+            let numberOfCompleteRows = toRemove.reduce((prev, next) => {return prev + next});
+            if (numberOfCompleteRows>0) {
+                for (let i=0; i<this.matrix.length; i++) {
+                    if (toRemove[i] == 0) {
+                        newMatrix.push(this.matrix[i]);
                     }
                 }
+                document.querySelector('.tetris_points').innerText = "Points: " + this.points;
+                this.matrix = newMatrix;
+                this.colorBoard();
             }
         }
 
@@ -481,6 +484,14 @@ document.addEventListener("DOMContentLoaded", function(){
                 document.querySelector('.finishedGame_text').innerText = "Here is your reward.";
             }
             document.querySelector('.finishedGame_joke').innerText = dataJoke;
+            // console.log('czydlugi');
+            // console.log('dataJoke');
+            // console.log(dataJoke.length);
+            if (dataJoke.length > 180) {
+                // console.log('dlugi');
+                // console.log('dataJoke');
+                document.querySelector('.finishedGame_joke').style.fontSize = '22px';
+            }
         }
     }
 

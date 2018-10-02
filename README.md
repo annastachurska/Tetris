@@ -1,6 +1,7 @@
 # Tetris
 Game Tetris - modified version of popular Tetris game. There are additional features described below.
 Additional features allow to practise the adaptation to changes and improve spacial orientation.
+After completing the game the User is rewarded with random Chuck Norris Joke downloaded from API.
 
 **Technology:** CSS3, HTML5, JS, ES6, webpack
 
@@ -20,6 +21,4 @@ The graphic was downloaded from
 https://www.wallpapervortex.com/wallpaper-20707_funny_ants_playing_tetris.html#.W5JKd6JR3IV
 
 **Status:** in progress
-
-Things to be done:
-1. Description of css
+to be done: adjusting finishing section and cleaning

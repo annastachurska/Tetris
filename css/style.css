@@ -1,9 +1,11 @@
+/*basic reset */
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/*additional fonts for whole page */
 @font-face {
     font-family: 'tetris';
     src: url('../fonts/Tetris2.ttf');
@@ -11,26 +13,32 @@
     font-style: normal;
 }
 
+/*blocking of scrolling of page */
 body{
     overflow-x: hidden;
     overflow-y: hidden;
 }
 
+/*setting sizes for start and introduction sections */
 .start, .introduction{
     width: 100vw;
     height: 100vh;
 }
 
+
+/*styling of start section */
+/*styling of main start container */
 .start{
     background-color: black;
     position: relative;
-
 }
 
+/*styling of elements inside start container */
 .start_header, .start_tetris{
     color: yellow;
     position: absolute;
     transform: translate(-50%, -50%);
+    font-weight: 900;
 }
 
 .start_header{
@@ -39,7 +47,6 @@ body{
     left: 50%;
     letter-spacing: 10px;
     word-spacing: 20px;
-    font-weight: 900;
     animation-name: changeColor;
     animation-duration: 5s;
     animation-iteration-count: infinite;
@@ -47,12 +54,13 @@ body{
     animation-direction: alternate-reverse;
 }
 
+/* animation for start_header item */
 @keyframes changeColor {
-    0% {color: yellow}
-    25% {color: lightgreen}
-    50% {color: aqua}
-    75% {color: violet}
-    100% {color: pink}
+    0% {color: yellow;}
+    25% {color: lightgreen;}
+    50% {color: aqua;}
+    75% {color: violet;}
+    100% {color: pink;}
 }
 
 .start_tetris{
@@ -60,23 +68,19 @@ body{
     top: 51%;
     left: 50%;
     letter-spacing: 20px;
-    font-weight: 900;
     font-family: 'tetris', Helvetica, sans-serif;
     animation-name: lightenHeader;
     animation-duration: 5s;
     animation-iteration-count: infinite;
     animation-fill-mode: forwards;
     animation-direction: alternate-reverse;
-
 }
 
-
+/* animation for start_tetris item */
 @keyframes lightenHeader {
     0% {font-size: 80px; text-shadow: 0px 0px 25px pink;}
     100% {font-size: 120px; text-shadow: 0px 0px 125px pink;}
 }
-
-
 
 .start_button{
     position: absolute;
@@ -91,12 +95,16 @@ body{
     font-weight: 700;
 }
 
+
+/*styling of introduction section */
+/*styling of the main introduction container */
 .introduction{
-    background-image: url("../img/20707_funny_ants_playing_tetris.jpg");
     background-color: yellow;
+    background-image: url("../img/20707_funny_ants_playing_tetris.jpg");
     position: relative;
 }
 
+/*styling of the introduction inner container - inside the border*/
 .introduction_item{
     border: 5px solid #2D5B0F;
     position: absolute;
@@ -107,14 +115,15 @@ body{
     height: 80vh;
 }
 
+/*styling of the elements inside introduction inner container */
 .introduction_header{
     padding: 20px 0 0 150px;
     font-size: 40px;
 }
+
 .introduction_description{
     padding: 20px 0 25px 25px;
     text-align: center;
-
 }
 
 .introduction_label{
@@ -147,12 +156,10 @@ body{
     padding-left: 20px;
 }
 
-
 .introduction_button{
     position: absolute;
     background-color: #2D5B0F;
     color:#AFCC5D;
-    /*background-color: #6AAB61;*/
     border-color: #AFCC5D   ;
     font-size: 20px;
     padding: 10px 30px;
@@ -169,50 +176,58 @@ body{
     padding-top: 10px;
 }
 
+/*styling of game section */
+/*styling of the main container of game section */
 .tetrisContainer{
-    /*background-color: #6AAB61;*/
-    /*//#AAC95D*/
-    /*background-image: url("../img/20707_funny_ants_playing_tetris.jpg");*/
     background-color: #94d38b;
     width: 100vw;
     height: 100vh;
     display: none;
     justify-content: left;
-    /*position: relative;*/
 }
 
+/*styling of the left container located inside main tetris container
+contains buttons and section for description of buttons action */
 .tetrisLeft{
     text-align: center;
     width: 30vw;
     height: 60vh;
     border: 1px solid green;
     margin: 10vh 0 0 10vw;
-
 }
+
+/* styling of position of header for tetrisLeft and buttons container */
 .tetris_header, .tetris_button_container_title{
     margin: 20px;
 }
+
+/*styling of tetris special buttons */
 .tetris_button{
     margin: 10px 5px 20px 5px;
     padding: 5px;
 }
 
+.tetris_slowDown{
+    top: 50%;
+    left: 10%;
+}
+
+/*styling of element containing descriptions of tetris special buttons */
 .tetrisInfo_text{
     margin: 20px;
     font-size: 20px;
 }
 
+/*styling of tetris element containing all divs */
+/*styling of main container */
 #tetris{
-    /*width: 400px;*/
-    /*height: 400px;*/
     margin-top: 10vh;
     margin-left: 10vw;
     min-height: 100px;
     min-width: 100px;
-    /*float: left;*/
-
 }
 
+/*styling of small tetris elements - small rectangulars */
 #tetris div {
     width: 20px;
     height: 20px;
@@ -221,15 +236,19 @@ body{
     background-color: #AAC959;
 }
 
+
+/*styling of section handling description after finishing the game */
+/* styling of the main container of finishing section */
 .finishedGame {
     width: 100vw;
     height: 100vh;
     display: block;
-    background-image: url("../img/20707_funny_ants_playing_tetris.jpg");
     background-color: yellow;
+    background-image: url("../img/20707_funny_ants_playing_tetris.jpg");
     position: relative;
 }
 
+/* styling of the inner container of finishing section */
 .finishedGame_container{
     border: 5px solid #2D5B0F;
     position: absolute;
@@ -241,6 +260,7 @@ body{
     text-align: center;
 }
 
+/* styling of elements inside the inner container of finishing section */
 .finishedGame_header{
     padding: 20px 0;
     animation-name: changeSize;
@@ -249,9 +269,9 @@ body{
     animation-fill-mode: forwards;
     animation-direction: alternate-reverse;
 }
-
+/* styling the animation for header of finishing section */
 @keyframes changeSize {
-    0% {font-size: 30px; text-shadow: 0 0 0px yellow;}
+    0% {font-size: 30px; text-shadow: 0 0 0 yellow;}
     100% {font-size: 40px; text-shadow: 0 0 10px yellow;}
 }
 
@@ -259,18 +279,17 @@ body{
     position: absolute;
     top: 19%;
     left: 10%;
-    margin-left: 50pxl
-}
-
-.finishedGame_text{
-    padding: 20px 0 25px 25px;
-    font-size: 30px;
-
+    margin-left: 50px;
 }
 
 .finishedGame_points, .finishedGame_text_middle{
     font-size: 30px;
     padding: 10px;
+}
+
+.finishedGame_text{
+    padding: 20px 0 25px 25px;
+    font-size: 30px;
 }
 
 .finishedGame_joke{
@@ -280,7 +299,4 @@ body{
     font-style: italic;
 }
 
-.tetris_slowDown{
-    top: 50%;
-    left: 10%;
-}
+
