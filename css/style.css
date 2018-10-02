@@ -278,8 +278,7 @@ contains buttons and section for description of buttons action */
 .finishedGame_text_container{
     position: absolute;
     top: 19%;
-    left: 10%;
-    margin-left: 50px;
+    left: 5%;
 }
 
 .finishedGame_points, .finishedGame_text_middle{
