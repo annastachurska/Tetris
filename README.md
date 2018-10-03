@@ -2,6 +2,7 @@
 Game Tetris - modified version of popular Tetris game. There are additional features described below.
 Additional features allow to practise the adaptation to changes and improve spacial orientation.
 After completing the game the User is rewarded with random Chuck Norris Joke downloaded from API.
+Game was created as a final project in JavaScript developer:React course in Coders Lab. 
 
 **Technology:** CSS3, HTML5, JS, ES6, webpack
 
