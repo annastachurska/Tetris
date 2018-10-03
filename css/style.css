@@ -101,6 +101,8 @@ body{
 .introduction{
     background-color: yellow;
     background-image: url("../img/20707_funny_ants_playing_tetris.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
     position: relative;
 }
 
@@ -245,6 +247,8 @@ contains buttons and section for description of buttons action */
     display: block;
     background-color: yellow;
     background-image: url("../img/20707_funny_ants_playing_tetris.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
     position: relative;
 }
 
