@@ -2,6 +2,8 @@
 *{
     margin: 0;
     padding: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
 
@@ -37,6 +39,10 @@ body{
 .start_header, .start_tetris{
     color: yellow;
     position: absolute;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     font-weight: 900;
 }
@@ -47,14 +53,61 @@ body{
     left: 50%;
     letter-spacing: 10px;
     word-spacing: 20px;
+    -webkit-animation-name: changeColor;
+    -moz-animation-name: changeColor;
+    -o-animation-name: changeColor;
     animation-name: changeColor;
+    -webkit-animation-duration: 5s;
+    -moz-animation-duration: 5s;
+    -o-animation-duration: 5s;
     animation-duration: 5s;
+    -webkit-animation-iteration-count: infinite;
+    -moz-animation-iteration-count: infinite;
+    -o-animation-iteration-count: infinite;
     animation-iteration-count: infinite;
+    -webkit-animation-fill-mode: forwards;
+    -moz-animation-fill-mode: forwards;
+    -o-animation-fill-mode: forwards;
     animation-fill-mode: forwards;
+    -webkit-animation-direction: alternate-reverse;
+    -moz-animation-direction: alternate-reverse;
+    -o-animation-direction: alternate-reverse;
     animation-direction: alternate-reverse;
 }
 
 /* animation for start_header item */
+@-webkit-keyframes changeColor {
+    0% {color: yellow;}
+    25% {color: lightgreen;}
+    50% {color: aqua;}
+    75% {color: violet;}
+    100% {color: pink;}
+}
+
+@-moz-keyframes changeColor {
+    0% {color: yellow;}
+    25% {color: lightgreen;}
+    50% {color: aqua;}
+    75% {color: violet;}
+    100% {color: pink;}
+}
+
+@-ms-keyframes changeColor {
+    0% {color: yellow;}
+    25% {color: lightgreen;}
+    50% {color: aqua;}
+    75% {color: violet;}
+    100% {color: pink;}
+}
+
+@-o-keyframes changeColor {
+    0% {color: yellow;}
+    25% {color: lightgreen;}
+    50% {color: aqua;}
+    75% {color: violet;}
+    100% {color: pink;}
+}
+
 @keyframes changeColor {
     0% {color: yellow;}
     25% {color: lightgreen;}
@@ -69,17 +122,63 @@ body{
     left: 50%;
     letter-spacing: 20px;
     font-family: 'tetris', Helvetica, sans-serif;
+    -webkit-animation-name: lightenHeader;
+    -moz-animation-name: lightenHeader;
+    -o-animation-name: lightenHeader;
     animation-name: lightenHeader;
+    -webkit-animation-duration: 5s;
+    -moz-animation-duration: 5s;
+    -o-animation-duration: 5s;
     animation-duration: 5s;
+    -webkit-animation-iteration-count: infinite;
+    -moz-animation-iteration-count: infinite;
+    -o-animation-iteration-count: infinite;
     animation-iteration-count: infinite;
+    -webkit-animation-fill-mode: forwards;
+    -moz-animation-fill-mode: forwards;
+    -o-animation-fill-mode: forwards;
     animation-fill-mode: forwards;
+    -webkit-animation-direction: alternate-reverse;
+    -moz-animation-direction: alternate-reverse;
+    -o-animation-direction: alternate-reverse;
     animation-direction: alternate-reverse;
 }
 
+
 /* animation for start_tetris item */
+@-webkit-keyframes lightenHeader {
+    0% {font-size: 80px;
+        text-shadow: 0 0 25px pink;}
+    100% {font-size: 120px;
+        text-shadow: 0 0 125px pink;}
+}
+
+@-moz-keyframes lightenHeader {
+    0% {font-size: 80px;
+        text-shadow: 0 0 25px pink;}
+    100% {font-size: 120px;
+        text-shadow: 0 0 125px pink;}
+}
+
+@-ms-keyframes lightenHeader {
+    0% {font-size: 80px;
+        text-shadow: 0 0 25px pink;}
+    100% {font-size: 120px;
+        text-shadow: 0 0 125px pink;}
+}
+
+@-o-keyframes lightenHeader {
+    0% {font-size: 80px;
+        text-shadow: 0 0 25px pink;}
+    100% {font-size: 120px;
+        text-shadow: 0 0 125px pink;}
+}
+
 @keyframes lightenHeader {
-    0% {font-size: 80px; text-shadow: 0px 0px 25px pink;}
-    100% {font-size: 120px; text-shadow: 0px 0px 125px pink;}
+    0% {font-size: 80px;
+        text-shadow: 0 0 25px pink;}
+    100% {font-size: 120px;
+        text-shadow: 0 0 125px pink;}
 }
 
 .start_button{
@@ -91,6 +190,10 @@ body{
     border-radius: 10px;
     top: 75%;
     left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     font-weight: 700;
 }
@@ -168,6 +271,10 @@ body{
     border-radius: 10px;
     top: 90%;
     left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     font-weight: 700;
 }
@@ -178,6 +285,7 @@ body{
     padding-top: 10px;
 }
 
+
 /*styling of game section */
 /*styling of the main container of game section */
 .tetrisContainer{
@@ -185,6 +293,7 @@ body{
     width: 100vw;
     height: 100vh;
     display: none;
+    -webkit-justify-content: left;
     justify-content: left;
 }
 
@@ -264,19 +373,66 @@ contains buttons and section for description of buttons action */
     text-align: center;
 }
 
+
 /* styling of elements inside the inner container of finishing section */
 .finishedGame_header{
     padding: 20px 0;
+    -webkit-animation-name: changeSize;
+    -moz-animation-name: changeSize;
+    -o-animation-name: changeSize;
     animation-name: changeSize;
+    -webkit-animation-duration: 2s;
+    -moz-animation-duration: 2s;
+    -o-animation-duration: 2s;
     animation-duration: 2s;
+    -webkit-animation-iteration-count: infinite;
+    -moz-animation-iteration-count: infinite;
+    -o-animation-iteration-count: infinite;
     animation-iteration-count: infinite;
+    -webkit-animation-fill-mode: forwards;
+    -moz-animation-fill-mode: forwards;
+    -o-animation-fill-mode: forwards;
     animation-fill-mode: forwards;
+    -webkit-animation-direction: alternate-reverse;
+    -moz-animation-direction: alternate-reverse;
+    -o-animation-direction: alternate-reverse;
     animation-direction: alternate-reverse;
 }
+
 /* styling the animation for header of finishing section */
+@-webkit-keyframes changeSize {
+    0% {font-size: 30px;
+        text-shadow: 0 0 0 yellow;}
+    100% {font-size: 40px;
+        text-shadow: 0 0 10px yellow;}
+}
+
+@-moz-keyframes changeSize {
+    0% {font-size: 30px;
+        text-shadow: 0 0 0 yellow;}
+    100% {font-size: 40px;
+        text-shadow: 0 0 10px yellow;}
+}
+
+@-ms-keyframes changeSize {
+    0% {font-size: 30px;
+        text-shadow: 0 0 0 yellow;}
+    100% {font-size: 40px;
+        text-shadow: 0 0 10px yellow;}
+}
+
+@-o-keyframes changeSize {
+    0% {font-size: 30px;
+        text-shadow: 0 0 0 yellow;}
+    100% {font-size: 40px;
+        text-shadow: 0 0 10px yellow;}
+}
+
 @keyframes changeSize {
-    0% {font-size: 30px; text-shadow: 0 0 0 yellow;}
-    100% {font-size: 40px; text-shadow: 0 0 10px yellow;}
+    0% {font-size: 30px;
+        text-shadow: 0 0 0 yellow;}
+    100% {font-size: 40px;
+        text-shadow: 0 0 10px yellow;}
 }
 
 .finishedGame_text_container{
