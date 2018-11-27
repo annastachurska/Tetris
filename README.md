@@ -4,7 +4,7 @@ Additional features allow to practise the adaptation to changes and improve spac
 After completing the game the User is rewarded with random Chuck Norris Joke downloaded from API.
 Game was created as a final project in JavaScript developer:React course in Coders Lab. 
 
-**Technology:** CSS3, HTML5, JS, ES6, webpack
+**Technology:** CSS3, HTML5, JS, ES6, Webpack, npm, Babel-loader and REST Api.
 
 **Installation:** Webpack is required for installation. Webpack file is added. For installation you have to use npm install command.
 
