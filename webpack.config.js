@@ -1,7 +1,7 @@
 var path = require("path");
 
 module.exports = {
-    entry:"./js/newtetris_ES6.jsx",
+    entry: ["whatwg-fetch",	"./js/newtetris_ES6.jsx"],
     output: { filename: "out.js", path: path.resolve(__dirname, "js") },
     mode: "development", watch: true,
     module: {
